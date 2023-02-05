@@ -1,0 +1,208 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/fragments/head:: html_head" />
+<body>
+	<div id="wrapper">
+		<!-- Navigation -->
+		<nav th:replace="admin/fragments/nav::html_nav"/>
+	
+		<div id="page-wrapper">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-lg-12">
+						<h1 class="page-header" th:text="${title}"></h1>
+					</div>
+					<!-- /.col-lg-12 -->
+				</div>
+				<!-- /.row -->
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="panel panel-default">
+							<!-- /.panel-heading -->
+							<div class="panel-body">
+								<div class="table-responsive">
+									<table class="table table-striped table-bordered table-hover"
+										id="dataTables-orders">
+										<thead>
+											<tr>
+												<th>STT</th>
+												<th>Mã Đơn hàng</th>
+												<th>Người Nhận</th>
+												<th>Địa chỉ đặt hàng</th>
+												<th>Số điện thoại</th>
+												<th>Ngày vận chuyển</th>
+												<th>Trình trạng</th>
+												<th>Tổng tiền</th>
+												<th>Hình thức</th>
+												<th>Vận chuyển</th>
+												<th></th>
+											</tr>
+										</thead>
+										<tbody>
+										</tbody>
+									</table>
+								</div>
+								<!-- /.table-responsive -->
+							</div>
+							<!-- /.panel-body -->
+						</div>
+						<!-- /.panel -->
+					</div>
+					<!-- /.col-lg-12 -->
+				</div>
+				<!-- /.row -->
+
+				<!-- /.row -->
+			</div>
+			<!-- /.container-fluid -->
+		</div>
+		<!-- /#page-wrapper -->
+	</div>
+	<!-- /#wrapper -->
+
+	<th:block th:replace="admin/fragments/script :: html_script" />
+	<script type="text/javascript">
+		$(document).ready(function () {
+		  var table=  $('#dataTables-orders').dataTable({
+		    	"processing": true,
+		        "serverSide": false,
+		      "ajax" :{
+		        "url" : '/admin/manage/order/get/list',
+		        "type" : 'get',
+		        "datatype" : 'json',
+		        "contentType" : "application/json; charset=utf-8",
+		        "dataSrc" :""
+		      },
+		      "columns" : [ {
+		        "data" : "id"
+
+		      },{
+		        "data" : "sku_order", "width": "100px"
+		      }
+		      ,{
+		          "data":"address.recever","width": "150px",
+		          render :function (data){
+		        	  return "<h5>"+data+"</h5>";
+		          }
+
+			      },
+		        {
+			    	   "data":"address",
+				          render :function (data){
+				        	  var string =data.province+"-"+data.district+"-"+data.ward+"-"+data.village+"-"+data.address_house;
+				        	  return "<h6>"+string+"</h6>"
+				          }
+		        },
+		        {
+		        	"data" : "address.phone"
+			       
+			        },
+		        {
+		          "data": "createdDate"
+
+		        },
+		        {
+		        	"data" :function (data){
+		        	var id=data.id;
+		        	var processs=data.processs;
+		            if(processs){
+		              return "<button class='btn btn-primary' type='button' id='activity-user' onclick='activityProcess("+id+","+processs+")' disabled >Đang vận chuyển</button>";
+		            }else{
+		            return "<button class='btn btn-success' type='button' id='activity-user' onclick='activityProcess("+id+","+processs+")'  >Đang chờ xử lý</button>";
+		          }}
+		        },
+		        {
+		        	"data": "total"
+		        },
+		        {
+					 "data":"payment.name_payment", "width":"100px",
+					 render : function (data){
+						 if(data=="TTQBO"){
+							 return "<h5>Thanh Toán Qua Bank Online</h5>";
+						 } if(data=="TTKNH") {
+							 return "<h5>Thanh Toán Khi Nhận Hàng</h5>";
+						 }if (data="TTVDT"){
+							 return "<h5>Thanh Toán Qua Ví điện tử</h5>";
+						 }
+					 }
+			        },
+			        {
+						 "data":"payment.transaction", "width":"100px",
+						 render : function (data){
+							 if(data=="GHN"){
+								 return "<h5 >Giao Hàng Nhanh</h5>";
+							 } if(data=="GHTK") {
+								 return "<h5>Giao Hàng Tiết Kiệm</h5>";
+							 } if(data="EMS") {
+								 return "<h5>Việt Nam Spot</h5>";
+
+							 }},"width": "100px"
+						 }
+				        ,
+				        {
+				        	"data": "id",
+				        	render :function (data){
+				        		return "<button class='btn btn-danger' onclick='deleteOrder("+data+")' >Hủy</button>"
+				        	}
+				        },
+				        
+		      ],
+		    });
+		    
+		  })
+		</script>
+		
+<script type="text/javascript">
+function deleteOrder(data){
+	 if (confirm("Bạn chắc chắn muốn hủy đặt hàng!")) {
+		  ajaxDelete(data);
+		  } else {
+		   
+		  }	
+	function  ajaxDelete(data){
+		$.ajax({
+			url: "/admin/manage/order/list/detele",
+			type:"get",
+			data:{
+				id:data,
+				success: function (response){	
+			if(data){
+				alert("Bạn đã hủy thành công");
+				$('#dataTables-orders').DataTable().ajax.reload();
+			}else {
+				alert("Không xóa được lỗi quá trình xử lý");
+			}
+			}
+			},
+		})
+	}
+}
+</script>
+<script type="text/javascript">
+	function  activityProcess(id,proccess){
+		if(confirm("Vận chuyển đơn hàng?")){
+			if(proccess){
+				alert("Đơn hàng đang được vận chuyển");
+				return false;
+			}
+			$.ajax({
+				url: "/admin/manage/order/proccess",
+				type:"get",
+				data:{
+					proccess :proccess,
+					id : id },
+					success: function (response,type){
+				if(response){
+					alert("Bạn đã kích hoạt vận chuyển thành công");
+					$('#dataTables-orders').DataTable().ajax.reload();
+				}else {
+					alert("Không kích hoạt được lỗi quá trình xử lý");
+				}
+				},
+			})
+		}
+	}
+</script>
+</body>
+</html>

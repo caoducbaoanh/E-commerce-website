@@ -1,0 +1,162 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/fragments/head:: html_head" />
+<body>
+	<div id="wrapper">
+		<!-- Navigation -->
+		<nav th:replace="admin/fragments/nav::html_nav" />
+
+		<div id="page-wrapper">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-lg-12">
+						<h1 class="page-header" th:text="${title}"></h1>
+					</div>
+					<!-- /.col-lg-12 -->
+				</div>
+				<!-- /.row -->
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="panel panel-default">
+							<!-- /.panel-heading -->
+							<div class="panel-body">
+								<div class="table-responsive">
+									<table class="table table-striped table-bordered table-hover"
+										id="dataTables-transactions">
+										<thead>
+											<tr>
+												<th>STT</th>
+												<th>Mã MVC</th>
+												<th>Trạng thái</th>
+												<th>Tên shipper</th>
+												<th>Ngày nhận hàng</th>
+												<th>Ngày Giao hàng</th>
+												<th>Thanh toán</th>
+												<th>Xóa</th>
+											</tr>
+										</thead>
+										<tbody>
+										</tbody>
+									</table>
+								</div>
+								<!-- /.table-responsive -->
+							</div>
+							<!-- /.panel-body -->
+						</div>
+						<!-- /.panel -->
+					</div>
+					<!-- /.col-lg-12 -->
+				</div>
+				<!-- /.row -->
+
+				<!-- /.row -->
+			</div>
+			<!-- /.container-fluid -->
+		</div>
+		<!-- /#page-wrapper -->
+	</div>
+	<!-- /#wrapper -->
+
+	<th:block th:replace="admin/fragments/script :: html_script" />
+	<script type="text/javascript">
+		$(document).ready(function () {
+		    $('#dataTables-transactions').dataTable({
+		    	"processing": true,
+		        "serverSide": false,
+		      "ajax" :{
+		        "url" : '/admin/manage/transaction/get/list',
+		        "type" : 'get',
+		        "datatype" : 'json',
+		        "contentType" : "application/json; charset=utf-8",
+		        "dataSrc" :""
+		      },
+		      "columns" : [ {
+		        "data" : "id"
+		      },{
+		        "data" : "sku_mvc", "width": "100px"
+		      }
+		      ,{
+		          "data":"status","width": "150px",
+			      },
+		        {
+			    	   "data":"shipper",
+				         
+		        },
+		        {
+		        	"data" : "createdDate"
+			       
+			        },
+		        {
+		          "data": "updatedDate"
+		        },
+		        {
+		        	"data": null,
+                    "render": function (data, type, row, meta) {
+                    	var check=row.checks;
+                    	console.log(check);
+                    	if(check){
+    		        		return "<button class='btn btn-danger' onclick='paymentOrder("+row.id+")' >Đã Thanh Toán</button>"
+
+                    	}else{
+    		        		return "<button class='btn btn-danger' onclick='paymentOrder("+row.id+")' >Thanh Toán</button>"
+
+                    	}
+		        	}
+		        },
+		 	        {
+				        	"data": "id",
+				        	render :function (data){
+				        		return "<button class='btn btn-danger' onclick='cancelTransport("+data+")' >Hủy</button>"
+				        	}
+				        },
+				        
+		      ],
+		    })
+		  })
+		</script>
+	<script type="text/javascript">
+	function cancelTransport(data) {
+		if (confirm("Bạn muốn hủy vận chuyển?")) {
+			$.ajax({
+				url : '/admin/manage/bill/delete',
+				type : "get",
+				data : {
+					id : data,
+				},
+				success : function(response, type) {
+					if (response) {
+						alert("Đã hủy thành công");
+						$('#datatable-bills').DataTable().ajax.reload();
+
+					} else {
+						alert("lỗi quá trình xử lý");
+					}
+				},
+			})
+		}
+	}	</script>
+	<script type="text/javascript">
+	function paymentOrder(data) {
+		if (confirm("Khách hàng đã thanh toán hóa đơn?")) {
+			$.ajax({
+				url : '/admin/manage/transaction/payment',
+				type : "get",
+				data : {
+					id : data,
+				},
+				success : function(response, type) {
+					if (response) {
+						alert("Đã thanh toán thành công");
+						$('#datatable-bills').DataTable().ajax.reload();
+
+					} else {
+						alert("lỗi quá trình xử lý");
+					}
+				},
+			})
+		}
+	}	</script>
+
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content="" />
+<meta name="author" content="" />
+
+<title>Quản trị viên</title>
+<!-- Bootstrap Core CSS -->
+<link href="/admin/css/bootstrap.min.css" rel="stylesheet" />
+
+<!-- MetisMenu CSS -->
+<link href="/admin/css/metisMenu.min.css" rel="stylesheet" />
+
+<!-- Timeline CSS -->
+<link href="/admin/css/timeline.css" rel="stylesheet" />
+
+<!-- Custom CSS -->
+<link href="/admin/css/startmin.css" rel="stylesheet" />
+
+<!-- Morris Charts CSS -->
+<link href="/admin/css/morris.css" rel="stylesheet" />
+
+<!-- Custom Fonts -->
+<link href="/admin/css/font-awesome.min.css" rel="stylesheet"
+	type="text/css" />
+</head>
+<body>
+	<nav th:fragment="html_header"
+		class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+		<div class="navbar-header">
+			<a class="navbar-brand" href="index.html">Quản lý Admin</a>
+		</div>
+
+		<button type="button" class="navbar-toggle" data-toggle="collapse"
+			data-target=".navbar-collapse">
+			<span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span>
+			<span class="icon-bar"></span> <span class="icon-bar"></span>
+		</button>
+
+		<ul class="nav navbar-nav navbar-left navbar-top-links">
+			<li><a href="#"><i class="fa fa-home fa-fw"></i>Shop H-PoT</a></li>
+		</ul>
+
+		<ul class="nav navbar-right navbar-top-links">
+			<li class="dropdown navbar-inverse"><a class="dropdown-toggle"
+				data-toggle="dropdown" href="#"> <i class="fa fa-bell fa-fw"></i>
+					<b class="caret"></b>
+			</a>
+			
+			<li class="dropdown"><a class="dropdown-toggle"
+				data-toggle="dropdown" href="#"> <i class="fa fa-user fa-fw"></i>
+					Tên admin <b class="caret"></b>
+			</a>
+				<ul class="dropdown-menu dropdown-user">
+					<li><a href="#"><i class="fa fa-user fa-fw"></i>Thông tin
+							admin</a></li>
+					<li><a href="#"><i class="fa fa-gear fa-fw"></i>Cài đặt </a></li>
+					<li class="divider"></li>
+					<li><a th:href="@{/admin/system/logout}"><i
+							class="fa fa-sign-out fa-fw"></i>Đăng xuất</a></li>
+				</ul></li>
+		</ul>
+		<div class="navbar-default sidebar" role="navigation">
+			<div class="sidebar-nav navbar-collapse">
+				<ul class="nav" id="side-menu">
+					<li class="sidebar-search">
+						<div class="input-group custom-search-form">
+							<input type="text" class="form-control" placeholder="Search..." />
+							<span class="input-group-btn">
+								<button class="btn btn-primary" type="button">
+									<i class="fa fa-search"></i>
+								</button>
+							</span>
+						</div> <!-- /input-group -->
+					</li>
+					<li><a href="index.html" class="active"><i
+							class="fa fa-dashboard fa-fw"></i> Trang chủ</a></li>
+
+					<li><a href="products.html"><i
+							class="fa fa-table fa-fw"></i> Tất cả sản phẩm</a></li>
+					<li><a href="types.html"><i
+							class="fa fa-edit fa-fw"></i> Danh mục sản phẩm</a></li>
+					<li><a href="bill.html"><i
+							class="fa fa-file-text-o"></i> Quản lý hóa đơn</a></li>
+					<li><a href="account.html"><i
+							class="fa fa-heartbeat"></i> Quản lý tài khoản</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+</body>
+</html>

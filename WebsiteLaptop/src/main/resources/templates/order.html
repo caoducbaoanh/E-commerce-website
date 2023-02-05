@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+					<aside class="col-right sidebar col-sm-3 wow">
+						<div class="block block-progress">
+							<div class="block-title ">Đơn Hàng</div>
+							<div class="block-content">
+								<dl>
+									<dt class="complete">
+										Thông tin người nhận <span class="separator">|</span>
+									</dt>
+									<dd class="complete">
+										<address>
+											<br>Người Nhận: [[${session.address_order.recever}]],<br>
+											[[${session.address_order.province}]],
+											[[${session.address_order.district}]],[[${address_order.ward}]],
+											[[${session.address_order.village}]],
+											[[${session.address_order.address_house}]], <br> Số Điện
+											Thoại:[[${session.address_order.phone}]] <br>
+											Email:[[${session.address_order.email}]]
+										</address>
+									</dd>
+									<dt class="complete">
+										Sản Phẩm<span class="separator"></span>
+									</dt>
+									<dd class="complete">
+										<address>
+											<p th:each="products: ${listProduct}">
+												Tên Sản phẩm: [[${products.name}]] <br> Số lượng sản
+												phẩm: 1 <br>
+											</p>
+										</address>
+									</dd>
+									<dt class="complete">
+										Phương thức vận chuyển<span id="ptvc" class="separator">|</span>
+									</dt>
+									<dt class="complete">
+										Phương thức thành toán<span id="pttt" class="separator">|</span>
+									</dt>
+									<dd class="complete">
+										Tổng tiền <br> <span class="price"
+											th:text="${grandtotal}"> </span>
+									</dd>
+									<dt></dt>
+								</dl>
+							</div>
+						</div>
+					</aside>
+
+</body>
+</html>

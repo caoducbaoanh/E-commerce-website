@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/fragments :: html_head" />
+
+<body>
+	<div class="page">
+		<!-- Header -->
+		<header th:replace="fragments/header :: html_header" />
+
+		<!-- end header -->
+		<!-- Navbar -->
+		<nav th:replace="fragments/menu :: html_menu" />
+
+		<!-- end nav -->
+		<!-- main-container -->
+		<div class="main-container col2-right-layout">
+			<div class="main container">
+				<div class="row">
+					<section class="col-main col-sm-9 wow">
+						<div class="page-title">
+							<h1>Checkout</h1>
+						</div>
+						<ol class="one-page-checkout" id="checkoutSteps">
+							<form id="payment" action="#"  th:action="@{/thanh-toan-don-hang}"
+								method="post">
+								<li id="opc-billing" class="section allow active">
+									<div class="step-title">
+										<span class="number">1</span>
+										<h3>Địa chỉ người nhận</h3>
+										<!--<a href="#">Edit</a> -->
+									</div>
+									<div id="checkout-step-billing" class="step a-item" style="">
+
+										<fieldset class="group-select">
+											<ul>
+												<li>
+													<div class="form-group">
+														<label for="usr">Địa Chỉ Thảy thế(tên người
+															nhận/Tp,Tỉnh/Huyện,quận/Xã,Phương/số nhà,khác)</label> <input
+															type="text" class="form-control" id="inputSuccess2"
+															name="addressChange">
+													</div>
+												</li>
+											</ul>
+										</fieldset>
+
+									</div>
+								</li>
+								<li id="transaction" class="section allow active">
+									<div class="step-title">
+										<span class="number">2</span>
+										<h3>Phương thức Vận Chuyển</h3>
+										<!--<a href="#">Edit</a> -->
+									</div>
+									<div id="checkout-step-billing" class="step a-item" style="">
+
+										<fieldset class="group-select">
+											<ul>
+												<li>
+													<div class="form-check">
+														<label class="form-check-label"> <input
+															type="radio" class="form-check-input" value="GHN" id="transaction"
+															name="transaction"> Giao Hàng Nhanh (GHN)
+														</label>
+													</div>
+													<div class="form-check">
+														<label class="form-check-label"> <input
+															type="radio" class="form-check-input" value="GHTK"
+															name="transaction" id="transaction"> Giao Hàng Tiết Kiệm (GHTK)
+														</label>
+													</div>
+													<div class="form-check disabled">
+														<label class="form-check-label"> <input
+															type="radio" class="form-check-input" value="EMS"
+															name="transaction" id="transaction"> Việt Nam Spot (VNpost / EMS)
+														</label>
+													</div>
+												</li>
+											</ul>
+
+										</fieldset>
+
+									</div>
+								</li>
+								<li id="payment" class="section allow active">
+									<div class="step-title">
+										<span class="number">3</span>
+										<h3>Phương thức Thanh Toán</h3>
+
+									</div>
+									<div id="checkout-step-billing" class="step a-item" style="">
+
+										<fieldset class="group-select">
+											<ul>
+												<li>
+													<div class="form-check">
+														<label class="form-check-label"> <input
+															type="radio" class="form-check-input" value="TTKNH"
+															name="payment-check" id="payment-check"> Thanh Toán Khi Nhận Hàng
+														</label>
+													</div>
+													<div class="form-check">
+														<label class="form-check-label"> <input
+															type="radio" class="form-check-input" value="TTQBO"
+															name="payment-check" id="payment-check"> Thanh Toán Qua Bank Online(chưa
+															cập nhật)
+														</label>
+													</div>
+													<div class="form-check disabled">
+														<label class="form-check-label"> <input
+															type="radio" class="form-check-input" value="TTVDT"
+															name="payment-check" id="payment-check"> Thanh Toán Qua Ví điện tử(chưa
+															cập nhật)
+														</label>
+													</div>
+
+												</li>
+
+											</ul>
+
+										</fieldset>
+
+									</div>
+								</li>
+								<li id="vocher" class="section allow active">
+									<div class="step-title">
+										<span class="number">4</span>
+										<h3>MÃ Giảm Giá/Vẫn chuyển</h3>
+										<!--<a href="#">Edit</a> -->
+									</div>
+									<div id="checkout-step-billing" class="step a-item" style="">
+										<fieldset class="group-select">
+											<ul>
+												<div class="row">
+													<li>
+														<div class="input-group mb-3">
+															<div class="input-group-prepend">
+																<span class="input-group-text">Nhập Mã Giảm Giá</span>
+															</div>
+															<input type="text" class="form-control"
+																placeholder="Nhập Mã Giám Giá" name="voucher">
+														</div>
+
+													</li>
+													<li>
+														<button class="button btn-proceed-checkout"
+															title="Proceed to Checkout" type="submit">
+															<span>Đặt hàng</span>
+														</button>
+													</li>
+											</ul>
+
+										</fieldset>
+
+									</div>
+
+								</li>
+
+							</form>
+						</ol>
+					</section>
+					<aside class="col-right sidebar col-sm-3 wow">
+						<div class="block block-progress">
+							<div class="block-title ">Đơn Hàng</div>
+							<div class="block-content">
+								<dl>
+									<dt class="complete">
+										Thông tin người nhận <span class="separator">|</span>
+									</dt>
+									<dd class="complete">
+										<address>
+											<br>Người Nhận: [[${session.address_order.recever}]],<br>
+											[[${session.address_order.province}]],
+											[[${session.address_order.district}]],[[${address_order.ward}]],
+											[[${session.address_order.village}]],
+											[[${session.address_order.address_house}]], <br> Số Điện
+											Thoại:[[${session.address_order.phone}]] <br>
+											Email:[[${session.address_order.email}]]
+										</address>
+									</dd>
+									<dt class="complete">
+										Sản Phẩm<span class="separator"></span>
+									</dt>
+									<dd class="complete">
+										<address>
+											<p th:each="products: ${listProduct}">
+												Tên Sản phẩm: [[${products.name}]] <br> Số lượng sản
+												phẩm: 1 <br>
+											</p>
+										</address>
+									</dd>
+									<dt class="complete">
+										Phương thức vận chuyển<span id="PTVC" class="separator">|</span>
+									</dt>
+									<dt class="complete">
+										Phương thức thành toán<span id="PTTT" class="separator">|</span>
+									</dt>
+									<dd class="complete">
+										Tổng tiền <br> <span class="price"
+											th:text="${grandtotal}"> </span>
+									</dd>
+									<dt></dt>
+								</dl>
+							</div>
+						</div>
+					</aside>
+				</div>
+			</div>
+		</div>
+		<!--End main-container -->
+		<!-- Footer -->
+		<footer th:replace="fragments/footer :: html_footer" />
+
+		<!-- End Footer -->
+	</div>
+	<!-- JavaScript -->
+
+	<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+	<script type="text/javascript"  th:src="@{/js/bootstrap.min.js}"></script>
+
+	<script type="text/javascript"  th:src="@{/js/common.js}"></script>
+	<script type="text/javascript"  th:src="@{/js/owl.carousel.min.js}"></script>
+	<script type="text/javascript">
+    $(document).ready(function () {
+        $('#payment').submit(function (e) {
+        	e.preventDefault();
+                            var radioPayment = $("input[name='payment-check']:checked").val();
+                            var radioTransaction = $("input[name='transaction']:checked").val();
+                            var voucher = $("input[name='voucher']").val();
+                            var address = $("input[name='addressChange']").val();
+                            if (radioPayment == null) {
+                                alert("Bạn chưa chọn hình thức thanh toán");
+                                return false;
+                            } else if (radioTransaction == null) {
+                                alert("Bạn chưa chọn hình thức vận chuyển");
+                                return false;
+                            }
+                            $.ajax({
+                                    url: "/thanh-toan-don-hang",
+                                    type: "post",
+                                    data: {
+                                        paymentOrder: radioPayment,
+                                        transaction: radioTransaction,
+                                        address: address,
+                                    },
+                                    success: function (result) {
+                                    	if(result){
+                                            alert("Bạn đã đặt hàng thành công");
+											window.location.href="tai-khoan/don-hang/danh-sach-dat-hang";
+                                    	}else {
+                                            alert("Bạn đã đặt hàng không thành công");
+                                    	}
+                                    },
+                                error : function (xhr){
+                                        alert("lỗi xử lý"+xhr);
+                                }
+                                })
+                        });
+            });
+       
+	</script>
+<script type="text/javascript">
+$(document).ready(function(){
+    $('#payment-check').change(function(){
+    	var payment =$('#payment-check').val();
+    	var result="";
+    	if(payment=="TTKNH"){
+    		result="Thanh Toán Khi Nhận Hàng";
+    	}else if(payment=="TTQBO") {
+    		result="Thanh Toán Qua Bank Online";
+
+    	} else {
+    		result="Thanh Toán Qua Ví điện tử";
+    	}
+    	$('#PTVC').html("<span id='PTVC' class='separator'>|"+result+"</span>")
+    });
+});
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+    $('#transaction').change(function(){
+    	var transaction =$('#transaction').val();
+    	var result="";
+    	if(payment=="GHN"){
+    		result="Giao Hàng Nhanh (GHN)";
+    	}else if(payment=="GHTK") {
+    		result="Giao Hàng Tiết Kiệm (GHTK)";
+
+    	} else {
+    		result=" Việt Nam Spot (VNpost / EMS)";
+    	}
+    	$('#PTTT').html("<span id='PTTT' class='separator'>|"+result+"</span>")
+    });
+});
+</script>
+</body>
+</html>

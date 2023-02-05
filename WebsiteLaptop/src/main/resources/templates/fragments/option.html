@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+	<select th:if="${check=='D'}"  style=""id="district"
+		 class="required-entry validate-select"
+		onclick=" selectAddress('W')">
+		<option th:each="district: ${address}"
+			th:value="${district.districtid}" th:text="${district.name}"></option>
+	</select>
+	<select th:if="${check=='W'}"  style=""id="ward"
+		 class="required-entry validate-select"
+		onclick="selectAddress('V')">
+		<option th:each="ward: ${address}"
+			th:value="${ward.wardid}" th:text="${ward.name}"></option>
+	</select>
+	<select th:if="${check=='V'}"  style=""id="village"
+		 class="required-entry validate-select">
+		<option th:each="village: ${address}"
+			th:value="${village.villageid}" th:text="${village.name}"></option>
+	</select>
+</body>
+</html>

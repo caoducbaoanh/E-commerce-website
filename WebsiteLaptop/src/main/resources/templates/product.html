@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:replace="fragments/fragments :: html_head" />
+<body>
+	<div class="page">
+		<!-- Header -->
+		<header th:replace="fragments/header :: html_header" />
+
+		<!-- end header -->
+		<!-- Navbar -->
+		<nav th:replace="fragments/menu :: html_menu" />
+
+		<!-- end nav -->
+		<!-- breadcrumbs -->
+		<div class="breadcrumbs">
+			<div class="container">
+				<div class="row">
+					<ul>
+						<li class="home"><a href="index.html" title="Go to Home Page">Home</a><span>&mdash;›</span></li>
+						<li class=""><a href="grid.html" title="Go to Home Page">Women</a><span>&mdash;›</span></li>
+						<li class="category13"><strong>Tops &amp; Tees</strong></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<!-- End breadcrumbs -->
+
+		<!-- Two columns content -->
+		<section class="main-container col2-left-layout">
+			<div class="main container">
+				<div class="row">
+					<section class="col-main col-sm-9 col-sm-push-3 wow">
+						<div class="category-title">
+							<h1>Tất cả Sản phẩm</h1>
+						</div>
+						<!-- category banner -->
+						<div class="category-description std">
+							<div class="slider-items-products">
+								<div id="category-desc-slider"
+									class="product-flexslider hidden-buttons">
+									<div class="slider-items slider-width-col1">
+
+										<!-- Item -->
+										<div class="item">
+											<a href="#"><img alt="category-banner"
+												src="images/category-banner-img.jpg"></a>
+											<div class="cat-img-title cat-bg cat-box">
+												<h2 class="cat-heading">New Fashion 2015</h2>
+												<p>Lorem ipsum dolor sit amet, consectetur adipiscing
+													elit. Phasellus diam arcu.</p>
+											</div>
+										</div>
+										<!-- End Item -->
+
+										<!-- Item -->
+										<div class="item">
+											<a href="#x"><img alt="category-banner"
+												src="images/category-banner-img1.jpg"></a>
+										</div>
+										<!-- End Item -->
+
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- category banner -->
+						<div class="category-products">
+							<div class="toolbar">
+								<div class="sorter">
+									<div class="view-mode">
+										<span title="Grid" class="button button-active button-grid">Grid</span><a
+											href="list.html" title="List" class="button button-list">List</a>
+									</div>
+								</div>
+								<div id="sort-by">
+									<label class="left">Sort By: </label>
+									<ul>
+										<li><a href="#">Position<span class="right-arrow"></span></a>
+											<ul>
+												<li><a href="#">Name</a></li>
+												<li><a href="#">Price</a></li>
+												<li><a href="#">Position</a></li>
+											</ul></li>
+									</ul>
+									<a class="button-asc left" href="#"
+										title="Set Descending Direction"><span
+										style="color: #999; font-size: 11px;"
+										class="glyphicon glyphicon-arrow-up"></span></a>
+								</div>
+								<div class="pager">
+									<div id="limiter">
+										<label>View: </label>
+										<ul>
+											<li><a href="#">15<span class="right-arrow"></span></a>
+												<ul>
+													<li><a href="#">20</a></li>
+													<li><a href="#">30</a></li>
+													<li><a href="#">35</a></li>
+												</ul></li>
+										</ul>
+									</div>
+									<div th:if="${totalPages > 1}">
+										<div class="pages">
+											<label>Page:</label>
+											<ul class="pagination">
+												<li><a th:if="${currentPage < totalPages}"
+													th:href="@{'/sanpham/page/' + ${currentPage + 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">&laquo;</a></li>
+												<li th:each="i: ${#numbers.sequence(1, totalPages)}"><a
+													th:if="${currentPage != i}"
+													th:href="@{'/sanpham/page/' + ${i}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
+													<span th:unless="${currentPage != i}">[[${i}]]</span></li>
+												<li><a th:if="${currentPage < totalPages}"
+													th:href="@{'/sanpham/page/' + ${totalPages}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">&raquo;</a></li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+							<ul class="products-grid">
+								<li th:each="products :${listProduct}"
+									class="item col-lg-4 col-md-4 col-sm-6 col-xs-6">
+									<div class="col-item">
+										<div class="sale-label sale-top-right">Sale</div>
+										<div class="images-container">
+											<a class="product-image" th:title="${products.name}"
+												th:with="url = ${#strings.replace(products.name,'/','-')}"
+															th:href="@{/sanpham/id/{id}/detail/{dtlId}(id = ${products.id},dtlId = ${url})}"> <img
+												th:src="@{'/'+${products.getImages().get(0).getName()}}"
+												class="img-responsive" alt="a" />
+											</a>
+												<div class="actions">
+														<div class="actions-inner">
+															<button sec:authorize="isAuthenticated()" th:onclick="|addProductToCart('${products.id}')|"
+																type="button" title="Add to Cart"
+																class="button btn-cart">
+																<span>Thêm Giỏ Hàng</span>
+															</button>
+															<button sec:authorize="!isAuthenticated()" 
+																type="button" title="Add to Cart"
+																class="button btn-cart">
+																<a th:href="@{/dang-nhap}"><span >Thêm Giỏ Hàng</span></a>
+															</button>
+														</div>
+													</div>
+											<div class="qv-button-container">
+												<a class="qv-e-button btn-quickview-1"
+													href="quick_view.html"><span><span>Quick
+															View</span></span></a>
+											</div>
+										</div>
+										<div class="info">
+											<div class="info-inner">
+												<div class="item-title">
+													<a th:title="${products.name}" th:text="${products.name}"
+														th:with="url = ${#strings.replace(products.name,'/','-')}"
+															th:href="@{/sanpham/id/{id}/detail/{dtlId}(id = ${products.id},dtlId = ${url})}"> </a>
+												</div>
+												<!--item-title-->
+												<div class="item-content">
+													<div class="ratings">
+														<div class="rating-box">
+															<div style="width: 60%" class="rating"></div>
+														</div>
+													</div>
+													<div class="price-box">
+														<p class="special-price">
+															<span class="price" th:text="${#numbers.formatDecimal(products.price, 0, 'COMMA', 0, 'POINT')}"> </span>VND
+														</p>
+														<p class="old-price">
+															<span class="price-sep">-</span> <span
+																th:text="${products.discount}" class="price"> </span>
+														</p>
+													</div>
+												</div>
+												<!--item-content-->
+											</div>
+											<!--info-inner-->
+
+											<!--actions-->
+
+											<div class="clearfix"></div>
+										</div>
+									</div>
+								</li>
+
+							</ul>
+						</div>
+					</section>
+					<aside
+						class="col-left sidebar col-sm-3 col-xs-12 col-sm-pull-9 wow">
+						<div class="side-nav-categories">
+							<div class="block-title">Danh Mục Sản Phẩm</div>
+							<!--block-title-->
+							<!-- BEGIN BOX-CATEGORY -->
+							<div class="box-content box-category">
+								<ul>
+									<li th:each=" brands :${listBrand}"><a
+										th:href="@{/sanpham/the-loai/{category}(category= ${brands.name})}" th:text="${brands.name}"></a> <span
+										class="subDropdown minus"></span>
+										<ul class="level0_415" style="display: block">
+											<li th:each="categories:${brands.category}"><a
+												th:text="${categories.name}" href=""></a></li>
+
+										</ul></li>
+
+								</ul>
+							</div>
+							<!--box-content box-category-->
+						</div>
+						<div class="block block-layered-nav">
+							<div class="block-title">
+								<span>Shop Laptop</span>
+							</div>
+							<div class="block-content">
+								<p class="block-subtitle">Shopping Options</p>
+								<dl id="narrow-by-list">
+									<dt class="odd">Price</dt>
+									<dd class="odd">
+										<ol>
+											<li><a href="#"><span class="price">0</span> - <span
+													class="price">10.000.000</span></a> (6)</li>
+											<li><a href="#"><span class="price">10.000.000</span>
+													hơn</a> (6)</li>
+										</ol>
+									</dd>
+									<dt class="even">Xuất xứ</dt>
+									<dd class="even">
+										<ol>
+											<li><a href="#">Hàng Nội Địa</a> (9)</li>
+											<li><a href="#">Trung quốc</a> (4)</li>
+											<li><a href="#">Mỹ</a> (1)</li>
+											<li><a href="#">Anh</a> (1)</li>
+											<li><a href="#">Đài loan</a> (1)</li>
+
+
+										</ol>
+									</dd>
+									<dt class="odd">Color</dt>
+									<dd class="odd">
+										<ol>
+											<li><a href="#">Xanh</a> (1)</li>
+											<li><a href="#">trắng</a> (5)</li>
+											<li><a href="#">đen</a> (5)</li>
+											<li><a href="#">xám</a> (4)</li>
+											<li><a href="#">đèn xám</a> (3)</li>
+											<li><a href="#">khác</a> (1)</li>
+										</ol>
+									</dd>
+									<dt class="last even">CPU</dt>
+									<dd class="last even">
+										<ol>
+											<li><a href="#">Intel</a> (6)</li>
+											<li><a href="#">ADM</a> (6)</li>
+											<li><a href="#">khác</a> (4)</li>
+										</ol>
+									</dd>
+								</dl>
+							</div>
+						</div>
+						<div class="block block-cart">
+							<div class="block-title">
+								<span>SẢN PHẨM ĐÃ XEM</span>
+							</div>
+							<div class="block-content">
+
+								<p class="block-subtitle">Recently added item(s)</p>
+								<ul>
+									<li class="item"><a class="product-image"
+										title="Fisher-Price Bubble Mower" href="#"><img width="80"
+											alt="Fisher-Price Bubble Mower"
+											src="products-images/product1.jpg"></a>
+										<div class="product-details">
+											<div class="access">
+												<a class="btn-remove1" title="Remove This Item" href="#">
+													<span class="icon"></span> Remove
+												</a>
+											</div>
+											<p class="product-name">
+												<a href="#">Skater Dress In Leaf Print Grouped Product</a>
+											</p>
+											<strong>1</strong> x <span class="price">$19.99</span>
+										</div></li>
+									<li class="item last"><a class="product-image"
+										title="Prince Lionheart Jumbo Toy Hammock" href="#"><img
+											width="80" alt="Prince Lionheart Jumbo Toy Hammock"
+											src="products-images/product8.jpg"></a>
+										<div class="product-details">
+											<div class="access">
+												<a class="btn-remove1" title="Remove This Item" href="#">
+													<span class="icon"></span> Remove
+												</a>
+											</div>
+											<p class="product-name">
+												<a href="#"> Sample Fashion Product Prince Lionheart </a>
+											</p>
+											<strong>1</strong> x <span class="price">$8.00</span>
+											<!--access clearfix-->
+										</div></li>
+								</ul>
+							</div>
+						</div>
+
+					</aside>
+				</div>
+			</div>
+		</section>
+		<!-- End Two columns content -->
+
+		<!-- Footer -->
+		<footer th:replace="fragments/footer :: html_footer" />
+
+		<!-- End Footer -->
+	</div>
+	<th:block th:replace="fragments/jsfooter :: script" ></th:block>
+	<!-- JavaScript -->
+	<script type="text/javascript" src="/js/jquery.min.js"></script>
+	<script type="text/javascript" src="/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="/js/common.js"></script>
+	<script type="text/javascript" src="/js/owl.carousel.min.js"></script>
+</body>
+
+</html>

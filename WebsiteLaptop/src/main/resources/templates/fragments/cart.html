@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="">
+<title>Shop lapTop</title>
+<!-- Favicons Icon -->
+<link rel="icon"
+	href="http://demo.magikthemes.com/skin/frontend/base/default/favicon.ico"
+	type="image/x-icon" />
+<link rel="shortcut icon"
+	href="http://demo.magikthemes.com/skin/frontend/base/default/favicon.ico"
+	type="image/x-icon" />
+<!-- Mobile Specific -->
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1">
+<!-- CSS Style -->
+<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
+<link rel="stylesheet" href="css/style.css" type="text/css">
+<link rel="stylesheet" href="css/revslider.css" type="text/css">
+<link rel="stylesheet" href="css/owl.carousel.css" type="text/css">
+<link rel="stylesheet" href="css/owl.theme.css" type="text/css">
+<link rel="stylesheet" href="css/font-awesome.css" type="text/css">
+<!-- Google Fonts -->
+<link href='https://fonts.googleapis.com/css?family=Roboto:400,500,700'
+	rel='stylesheet' type='text/css'>
+</head>
+<body>
+	<div class="mini-cart">
+		<div data-toggle="dropdown" data-hover="dropdown"
+			class="basket dropdown-toggle">
+			<a href="shopping_cart.html"> <i class="icon-cart"></i>
+				<div class="cart-box">
+					<span class="title">Giỏ hàng</span><span th:text="${session.cartuser.getProduct().size()}" id="cart-total">
+					</span>
+				</div>
+			</a>
+		</div>
+		<div>
+			<div class="top-cart-content arrow_box">
+				<div class="block-subtitle">Dành Sách Giỏ Hàng</div>
+				<ul id="cart-sidebar" class="mini-products-list">
+					<li id="load" th:each="products : ${session.cartuser.getProduct()}"
+						class="item even"><a class="product-image" href="#"
+						title="Downloadable Product "><img alt="Downloadable Product "
+							th:src="@{'/'+${products.getImages().get(0).getName()}}" width="80"></a>
+						<div class="detail-item">
+							<div class="product-details">
+								<a href="#" title="Remove This Item" onClick=""
+									class="glyphicon glyphicon-remove">&nbsp;</a> <a
+									class="glyphicon glyphicon-pencil" title="Edit item" href="#">&nbsp;</a>
+								<p class="product-name">
+									<a href="#" title="Downloadable Product"
+										th:text="${products.name}"> </a>
+								</p>
+							</div>
+							<div class="product-details-bottom">
+								<span class="price"></span> <span class="title-desc">Qty:</span>
+								<strong>1</strong>
+							</div>
+						</div></li>
+
+				</ul>
+				<div class="top-subtotal">
+					Subtotal: <span class="price"></span>
+				</div>
+				<div class="actions">
+					<button class="btn-checkout" type="button">
+						<span>Checkout</span>
+					</button>
+					<button class="view-cart" type="button">
+			<a th:href="@{/tai-khoan/gio-hang}">	<span>Xem Giỏ Hàng</span></a>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>

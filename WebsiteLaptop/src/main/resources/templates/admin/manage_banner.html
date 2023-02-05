@@ -1,0 +1,267 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/fragments/head:: html_head" />
+<body>
+	<div id="wrapper">
+		<!-- Navigation -->
+		<nav th:replace="admin/fragments/nav::html_nav" />
+		<div id="page-wrapper">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-lg-12">
+						<h1 class="page-header" th:text="${title}"></h1>
+					</div>
+					<!-- /.col-lg-12 -->
+				</div>
+				<!-- /.row -->
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="panel panel-default">
+							<!-- /.panel-heading -->
+							<div class="panel-body">
+								<div class="table-responsive">
+									<button type="button" class="btn_add" data-toggle="modal"
+										data-target="#myModal">Thêm mới</button>
+									<form id="banner" th:action="@{/admin/manage/banner/add}"
+										method="post" th:object="${banner}"
+										enctype="multipart/form-data">
+										<div class="modal fade" id="myModal" role="dialog">
+											<div class="modal-dialog">
+												<!-- Modal content-->
+												<div class="modal-content">
+													<div class="modal-header">
+														<h4 style="text-align: center;">Thêm Banner</h4>
+													</div>
+													<div class="modal-body">
+														<div class="form-group">
+															<label for="exampleInputEmail1">Tên Banner</label> <input
+																type="text" class="form-control" id="name_banner"
+																th:field="${banner.name}" aria-describedby="emailHelp"
+																placeholder="">
+														</div>
+														<div class="form-group">
+															<label for="exampleInputPassword1">Tiểu đề</label> <input
+																type="text" class="form-control" id="name_title"
+																placeholder="" th:field="${banner.title_price}">
+														</div>
+														<div class="form-group">
+															<label for="exampleInputPassword1">Chủ đề</label> <input
+																type="text" class="form-control" id="theme"
+																placeholder="" th:field="${banner.theme_title}">
+														</div>
+														<div class="form-group">
+															<label for="exampleInputPassword1">Slogan</label> <input
+																type="text" class="form-control" id="slogan"
+																placeholder="" th:field="${banner.slogan}">
+														</div>
+														<div class="form-group">
+															<label for="">Hình ảnh </label> <input
+																type="file" class="form-control-file" name="files"
+																id="images" onchange="readURL(this);">
+														</div>
+														<img id="blah" th:src="@{categories.link_images}"
+															alt="your image" width="25%" />
+													</div>
+													
+												</div>
+												<div class="modal-footer" >
+													<button type="submit" class="btn addPD">Thêm mới</button>
+													<button type="button" class="btn btn-default"
+														data-dismiss="modal">Đóng</button>
+												</div>
+											</div>
+										</div>
+								</div>
+								</form>
+								<table class="table table-striped table-bordered table-hover"
+									id="dataTables-banner">
+									<thead>
+										<tr>
+											<th>STT</th>
+											<th>Tên</th>
+											<th>Hình ảnh</th>
+											<th>tiều đề giá</th>
+											<th>Tiểu Đề</th>
+											<th>Slogan</th>
+											<th></th>
+										</tr>
+									</thead>
+									<tbody>
+									</tbody>
+								</table>
+							</div>
+							<!-- /.table-responsive -->
+						</div>
+						<!-- /.panel-body -->
+					</div>
+					<!-- /.panel -->
+				</div>
+				<!-- /.col-lg-12 -->
+			</div>
+			<!-- /.row -->
+
+			<!-- /.row -->
+		</div>
+		<!-- /.container-fluid -->
+	</div>
+	<!-- /#page-wrapper -->
+	</div>
+	<!-- /#wrapper -->
+
+	<th:block th:replace="admin/fragments/script :: html_script" />
+	<script type="text/javascript">
+		$(document)
+				.ready(
+						function() {
+							$('#dataTables-banner')
+									.dataTable(
+											{
+												"processing" : true,
+												"serverSide" : false,
+											
+												"ajax" : {
+													"url" : '/admin/manage/banner/get/list',
+													"type" : 'get',
+													"datatype" : 'json',
+													"contentType" : "application/json; charset=utf-8",
+													"dataSrc" : ""
+												},
+
+												"columns" : [
+														{
+															"data" : "id"
+														},
+														{
+															"data" : "name",
+															"width" : "100px"
+														},
+														{
+															"data" : "link_images",
+															"width" : "150px",
+															render : function(
+																	data) {
+																return "<img src='"
+																		+ data
+																		+ "' width='100%' >"
+															}
+														},
+														{
+															"data" : "title_price",
+
+														},
+														{
+															"data" : "theme_title"
+
+														},
+														{
+															"data" : "slogan"
+														},
+													
+														{
+															"data" : "id",
+															render : function(
+																	data) {
+																return "<button class='btn btn-danger'  onclick='deleteBanner("
+																		+ data
+																		+ ")' >Xóa</button>"
+															}
+														},
+
+												],
+
+											})
+						})
+	</script>
+
+	<script type="text/javascript">
+		function deleteBanner(data) {
+			if (confirm("Bạn muốn xóa banner!")) {
+				ajaxDelete(data);
+			} else {
+
+			}
+			function ajaxDelete(data) {
+				$.ajax({
+					url : "/admin/manage/banner/delete",
+					type : "get",
+					data : {
+						id : data,
+					},
+					success : function(response) {
+						if (data) {
+							alert("Bạn đã xóa  thành công");
+							$('#dataTables-banner').DataTable().ajax.reload();
+						} else {
+							alert("Không xóa được lỗi quá trình xử lý");
+						}
+					},
+				})
+			}
+		}
+	</script>
+	<script type="text/javascript">
+		function editBanner(id) {
+			if (confirm("Bạn muốn kích hoạt tài khoản?")) {
+				$.ajax({
+					url : "/admin/manage/banner/edit",
+					type : "get",
+					data : {
+						id : id
+					},
+					success : function(response, type) {
+						if (response) {
+							$('#myModal').modal('show');
+						} else {
+							alert("Không kích hoạt được lỗi quá trình xử lý");
+						}
+					},
+				})
+			}
+		}
+	</script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('#banner').submit(function(event) {
+				event.preventDefault();
+				ajaxBanner();
+			})
+			function ajaxBanner() {
+				var form = $('#banner')[0];
+				var data = new FormData(form);
+				$.ajax({
+					url : "/admin/manage/banner/add",
+					type : "POST",
+					enctype : 'multipart/form-data',
+					data : data,
+					processData : false,
+					contentType : false,
+					success : function(data) {
+						if (data) {
+							alert("Bạn đã them banner thành công");
+							$('#dataTables-banner').DataTable().ajax.reload();
+
+						} else {
+							alert("lỗi quá trình xử lý ");
+						}
+					}
+				})
+			}
+		})
+	</script>
+	
+	<script type="text/javascript">
+		function readURL(input) {
+			if (input.files && input.files[0]) {
+				var reader = new FileReader();
+
+				reader.onload = function(e) {
+					$('#blah').attr('src', e.target.result);
+				};
+
+				reader.readAsDataURL(input.files[0]);
+			}
+		}
+	</script>
+</body>
+</html>

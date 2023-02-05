@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/fragments/head:: html_head" />
+  <body>
+    <div id="wrapper">
+      <!-- Navigation -->
+   		<nav th:replace="admin/fragments/nav::html_nav" />
+      <div id="page-wrapper">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-lg-12">
+              <h1 class="page-header">Thông kế</h1>
+            </div>
+            <!-- /.col-lg-12 -->
+          </div>
+          <!-- /.row -->
+          <div class="row">
+            <div class="col-lg-3 col-md-6">
+              <div class="panel panel-primary">
+                <div class="panel-heading">
+                  <div class="row">
+                    <div class="col-xs-3">
+                      <i class="fa fa-comments fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                      <div class="huge" th:text="${listR.size()}"></div>
+                      <div>Bình luận</div>
+                    </div>
+                  </div>
+                </div>
+                <a href="#">
+                  <div class="panel-footer">
+                    <span class="pull-left">Xem bình luận</span>
+                    <span class="pull-right"
+                      ><i class="fa fa-arrow-circle-right"></i
+                    ></span>
+
+                    <div class="clearfix"></div>
+                  </div>
+                </a>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+              <div class="panel panel-green">
+                <div class="panel-heading">
+                  <div class="row">
+                    <div class="col-xs-3">
+                      <i class="fa fa-tasks fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                      <div class="huge">12</div>
+                      <div>Bài viết </div>
+                    </div>
+                  </div>
+                </div>
+                <a href="#">
+                  <div class="panel-footer">
+                    <span class="pull-left">Xem bài viết</span>
+                    <span class="pull-right"
+                      ><i class="fa fa-arrow-circle-right"></i
+                    ></span>
+
+                    <div class="clearfix"></div>
+                  </div>
+                </a>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+              <div class="panel panel-yellow">
+                <div class="panel-heading">
+                  <div class="row">
+                    <div class="col-xs-3">
+                      <i class="fa fa-shopping-cart fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                      <div class="huge" th:text="${listOrders.size()}"></div>
+                      <div>Đặt hàng mới</div>
+                    </div>
+                  </div>
+                </div>
+                <a href="#">
+                  <div class="panel-footer">
+                    <span class="pull-left">Xem Đơn Hàng</span>
+                    <span class="pull-right"
+                      ><i class="fa fa-arrow-circle-right"></i
+                    ></span>
+
+                    <div class="clearfix"></div>
+                  </div>
+                </a>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+              <div class="panel panel-red">
+                <div class="panel-heading">
+                  <div class="row">
+                    <div class="col-xs-3">
+                      <i class="fa fa-user fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                      <div class="huge" th:text="${listU.size()}"></div>
+                      <div>Tài khoản mới</div>
+                    </div>
+                  </div>
+                </div>
+                <a href="#">
+                  <div class="panel-footer">
+                    <span class="pull-left">Xem tài khoản</span>
+                    <span class="pull-right"
+                      ><i class="fa fa-arrow-circle-right"></i
+                    ></span>
+
+                    <div class="clearfix"></div>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+          <!-- /.row -->
+          <div class="row">
+            <div class="col-lg-8">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <i class="fa fa-bar-chart-o fa-fw"></i>Biểu đồ sản phẩm
+                  <div class="pull-right">
+                    <div class="btn-group">
+                      <button
+                        type="button"
+                        class="btn btn-default btn-xs dropdown-toggle"
+                        data-toggle="dropdown"
+                      >
+                        Sắp xếp
+                        <span class="caret"></span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                  <div id="morris-area-chart"></div>
+                </div>
+                <!-- /.panel-body -->
+              </div>
+              <!-- /.panel -->
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <i class="fa fa-bar-chart-o fa-fw"></i>Bảng số liệu đơn hàng
+                  <div class="pull-right">
+                    <div class="btn-group">
+                      <button
+                        type="button"
+                        class="btn btn-default btn-xs dropdown-toggle"
+                        data-toggle="dropdown"
+                      >
+                        Sắp xếp
+                        <span class="caret"></span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <div class="table-responsive">
+                        <table
+                          class="table table-bordered table-hover table-striped"
+                        >
+                          <thead>
+                            <tr>
+                              <th>Mã Giao Dịch</th>
+                              <th>Ngày vận chuyển</th>
+                              <th>Ngày Giao hàng</th>
+                              <th>Tổng tiền</th>
+                              <th>Trạng thái</th>
+                              
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr th:each="transactions:${listT}">
+                              <td th:text="${transactions.sku_mvc}"></td>
+                              <td  th:text="${#dates.format(transactions.createdDate, 'dd-MMM-yyyy')}"></td>
+                              <td th:text="${transactions.updatedDate}"></td>
+                              <td th:text="${transactions.sumTotalOrder}"></td>
+                              <td th:text="${transactions.status}"></td>
+                            </tr>
+                        
+                          </tbody>
+                        </table>
+                      </div>
+                      <!-- /.table-responsive -->
+                    </div>
+                    <!-- /.col-lg-4 (nested) -->
+                    <div class="col-lg-8">
+                      <div id="morris-bar-chart"></div>
+                    </div>
+                    <!-- /.col-lg-8 (nested) -->
+                  </div>
+                  <!-- /.row -->
+                </div>
+                <!-- /.panel-body -->
+              </div>
+              <!-- /.panel -->
+              <!-- /.panel -->
+            </div>
+            <!-- /.col-lg-8 -->
+            <div class="col-lg-4">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <i class="fa fa-bell fa-fw"></i>Hoạt động mới 
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                  <div class="list-group">
+                    <a href="#" class="list-group-item">
+                      <i class="fa fa-comment fa-fw"></i> Bình luận mới
+                      <span class="pull-right text-muted small"
+                        ><em>4 trước</em>
+                      </span>
+                    </a>
+
+                  </div>
+                  <!-- /.list-group -->
+                  <a href="#" class="btn btn-default btn-block"
+                    >Xem Tất cả</a
+                  >
+                </div>
+                <!-- /.panel-body -->
+              </div>
+          
+            </div>
+            <!-- /.col-lg-4 -->
+          </div>
+          <!-- /.row -->
+        </div>
+        <!-- /.container-fluid -->
+      </div>
+      <!-- /#page-wrapper -->
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- jQuery -->
+  	<th:block th:replace="admin/fragments/script :: html_script" />
+ 
+  </body>
+</html>

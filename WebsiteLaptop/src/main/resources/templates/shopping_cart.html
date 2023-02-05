@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/fragments :: html_head" />
+<body>
+	<div class="page">
+		<!-- Header -->
+		<header th:replace="fragments/header :: html_header" />
+		<!-- end header -->
+		<!-- Navbar -->
+		<nav th:replace="fragments/menu :: html_menu" />
+		<!-- end nav -->
+		<section class="main-container col1-layout">
+			<div class="main container">
+				<div class="col-main">
+					<div class="cart wow">
+						<div class="page-title">
+							<h2>Dành Sách giỏ hàng</h2>
+						</div>
+							<div class="table-responsive">
+								<input type="hidden" value="Vwww7itR3zQFe86m" name="form_key">
+								<fieldset>
+									<table class="data-table cart-table" id="shopping-cart-table">
+										<colgroup>
+											<col width="1">
+											<col width="1">
+											<col width="1">
+											<col width="1">
+											<col width="1">
+											<col width="1">
+											<col width="1">
+										</colgroup>
+										<thead>
+											<tr class="first last">
+												<th rowspan="1">#</th>
+												<th rowspan="1"><span class="nobr">Tên Sản phẩm</span></th>
+												<th rowspan="1"></th>
+												<th colspan="1" class="a-center"><span class="nobr">Giá
+														sản phẩm</span></th>
+												<th class="a-center" rowspan="1">Số lượng</th>
+												<th colspan="1" class="a-center">Tổng Tiền</th>
+												<th class="a-center" rowspan="1">Xóa</th>
+											</tr>
+										</thead>
+										<tfoot>
+											<tr class="first last">
+												<td class="a-right last" colspan="50"><button
+														onclick="setLocation('#')" class="button btn-continue"
+														title="Continue Shopping" type="button">
+														<span><span>Tiếp tục mua sắm</span></span>
+													</button>
+													<button class="button btn-update" title="Update Cart" onclick="updateCart()"
+														value="update_qty" name="update_cart_action" type="submit">
+														<span><span>Cập nhật giỏ hàng</span></span>
+													</button>
+													<button id="empty_cart_button" class="button btn-empty"
+														title="Clear Cart" value="empty_cart"
+														name="update_cart_action" type="submit">
+														<span><span>Xóa giỏ hàng</span></span>
+													</button></td>
+											</tr>
+										</tfoot>
+										<tbody>
+											<tr  th:each="products : ${cart.getProduct()}"
+												class="first odd">
+												<td class="image"><a class="product-image"
+													title="Sample Product"
+													href="#/women-s-crepe-printed-black/"><img width="75"
+														alt="" th:src="@{${products.images.get(0).getName()}}"></a></td>
+												<td><h2 class="product-name">
+														<a href="#/women-s-crepe-printed-black/"
+															th:text="${products.name}"></a>
+													</h2></td>
+												<td class="a-center"><a title="Edit item parameters"
+													class="edit-bnt" href="#configure/id/15945/"></a></td>
+												<td class="a-right"><span class="cart-price"> <span
+														class="price" th:text="${#numbers.formatDecimal(products.price, 0, 'COMMA', 0, 'POINT')}">-VND</span>
+												</span></td>
+												<td class="a-center movewishlist"><input maxlength="12"
+													class="input-text qty" title="Qty" size="4" value="1"
+													name="cart"></td>
+												<td class="a-right movewishlist"><span
+													class="cart-price" th:with="result=${products.price * amount}"> <span class="price total" 
+														 th:text="${#numbers.formatDecimal(result, 0, 'COMMA', 0, 'POINT')}"></span>
+												</span></td>
+												<td class="a-center last"><a class="button remove-item"
+													title="Remove item" th:href="@{/tai-khoan/gio-hang/xoa/{id}(id=${products.id})}"><span><span>Xóa</span></span></a></td>
+											</tr>
+										</tbody>
+									</table>
+								</fieldset>
+
+							</div>
+							<!-- Iinformation address -->
+							<form action="#" th:action="@{/thanhtoan}" th:object="${address_order}"  method="post">
+							<div class="cart-collaterals row">
+								<div class="col-sm-4">
+									<div class="shipping">
+										<h3>Địa chỉ nhận hàng</h3>
+										<div class="shipping-form">
+
+											<p>Vui lòng nhập địa chỉ nhận hàng</p>
+											<ul class="form-list">
+												<li><label class="required" for="country"><em>*</em>Thành
+														Phố/Tỉnh</label>
+													<div class="input-box">
+														<select title="Country" class="validate-select"
+															id="country" name="country_id"
+															onchange="selectAddress('D')" th:field="${address_order.province}">
+															<option th:each="province: ${listProvince}"
+																th:value="${province.provinceid}"
+																th:text="${province.name}"></option>
+														</select>
+													</div></li>
+												<li><label for="region_id">Quận/Huyện</label>
+													<div class="input-box">
+														<select id="district"
+															class="required-entry validate-select"
+															onchange="selectAddress('W')" th:field="${address_order.district}">
+															<option value="">Vui lòng chọn Tình/thành phố</option>
+														</select>
+													</div></li>
+												<li><label for="region_id">Phường/Xã</label>
+													<div class="input-box">
+														<select id="ward" onchange="selectAddress('V')"
+															class="required-entry validate-select" th:field="${address_order.ward}">
+															<option value=""></option>
+														</select>
+													</div></li>
+												<li><label for="region_id">Thôn/Tổ/Ấp</label>
+													<div class="input-box">
+														<select id="village"
+															class="required-entry validate-select" th:field="${address_order.village}">
+															<option value=""></option>
+														</select>
+													</div></li>
+												<li><label for="region_id">Địa Chỉ Nhà</label>
+													<div class="input-box">
+														<input th:field="${address_order.address_house}" type="text" value="" name="coupon_code"
+															id="coupon_code" class="input-text fullwidth">
+													</div></li>
+											</ul>
+									
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-4">
+									<div class="discount">
+										<h3>Thông Tin Người Nhận</h3>
+										
+										<p>Vui lòng nhập địa chỉ người nhận hàng</p>
+										<label for="coupon_code">Người nhận.</label> <input
+											type="hidden" value="0" id="remove-coupone" name="remove">
+										<input  type="text" value="" name="coupon_code"
+											id="coupon_code" class="input-text fullwidth" th:field="${address_order.recever}"> <label
+											for="coupon_code">Số Điện Thoại</label> <input type="hidden"
+											value="0" id="remove-coupone" name="remove"> <input
+											type="text" value="" name="coupon_code" id="coupon_code"
+											class="input-text fullwidth" th:field="${address_order.phone}"> <label
+											for="coupon_code">Địa chi Email:</label> <input type="hidden"
+											value="0" id="remove-coupone" name="remove"> <input
+											type="text" value="" name="coupon_code" id="coupon_code"
+											class="input-text fullwidth" th:field="${address_order.email}"> <label>Ghi Chú
+											Đơn hàng</label>
+										<textarea th:field="${address_order.note}" rows="4" cols="51"></textarea>
+
+									</div>
+								</div>
+								<div class="totals col-sm-4">
+									<h3>Tổng Tiền</h3>
+									<div class="inner">
+										<table class="table shopping-cart-table-total"
+											id="shopping-cart-totals-table">
+											<colgroup>
+												<col>
+												<col width="1">
+
+											</colgroup>
+											
+											<tbody>
+												<tr>
+													<td colspan="1" class="a-left" style="">Số lượng</td>
+													<td class="a-right" style=""><span name="amount" class="price" th:text="${cart.product.size()}"></span></td>
+												</tr>
+												<tr>
+													<td colspan="1" class="a-left" style="">Tiền Shipper</td>
+													<td class="a-right" style="" ><span class="price" name="shipper">30000</span> VND</td>
+												</tr>
+												<tr>
+													<td colspan="1" class="a-left" style="">Giảm giá</td>
+													<td class="a-right" style=""><span class="price" name="percent" th:value="${amount}"></span>3%</td>
+												</tr>
+												<tr>
+													<td colspan="1" class="a-left" style="">Tổng Tiền Sản Phẩm</td>
+													<td class="a-right" style=""><span class="price"  name="total" th:text="${#numbers.formatDecimal(cart.total_price, 0, 'COMMA', 0, 'POINT')}">0</span>VND</td>
+												</tr>
+												<tfoot>
+												<tr>
+													<td colspan="1" class="a-left" style=""><strong>
+															Tổng tiền</strong></td>
+													<td class="a-right" style="" ><strong><span
+															class="price" th:text="${#numbers.formatDecimal(cart.total_price+30000, 0, 'COMMA', 0, 'POINT')}"></span>VND</strong></td>
+												</tr> 
+											</tfoot>
+											</tbody>
+										</table>
+										<ul class="checkout">
+											<li>
+												<button class="button btn-proceed-checkout"
+													title="Proceed to Checkout" type="submit">
+													<span>Thành Toán</span>
+												</button>
+											</li>
+											<br>
+										</ul>
+									</div>
+									<!--inner-->
+								</div>
+							</div>
+					</form>
+					</div>
+					
+				</div>
+
+				<div class="crosssel">
+					<div class="category-products">
+						<div class="upsell-pro wow">
+							<div class="slider-items-products">
+								<div class="new_title center">
+									<h2>Sản Phẩm Khác</h2>
+								</div>
+								<div id="upsell-products-slider"
+									class="product-flexslider hidden-buttons">
+									<div class="slider-items slider-width-col4">
+										<!-- Item -->
+										<div th:each="products : ${listOther}" class="item">
+											<div class="col-item">
+												<div class="sale-label sale-top-right">Sale</div>
+												<div class="images-container">
+													<a class="product-image" title="Sample Product"
+														href="product-detail.html"> <img
+														th:src="@{'/'+${products.getImages().get(0).getName()}}"
+														class="img-responsive" alt="a" />
+													</a></a>
+													<div class="actions">
+														<div class="actions-inner">
+															<button type="button" title="Add to Cart"
+																class="button btn-cart">
+																<span>Thêm Giỏ Hàng</span>
+															</button>
+														</div>
+													</div>
+													<div class="qv-button-container">
+														<a class="qv-e-button btn-quickview-1"
+															href="quick_view.html"><span><span>Xem
+																	Thêm</span></span></a>
+													</div>
+												</div>
+												<div class="info">
+													<div class="info-inner">
+														<div class="item-title">
+															<a href="#l" th:title="${products.name}"
+																th:text="${products.name}"> </a>
+														</div>
+														<!--item-title-->
+														<div class="item-content">
+															<div class="ratings">
+																<div class="rating-box">
+																	<div style="width: 60%" class="rating"></div>
+																</div>
+															</div>
+															<div class="price-box">
+																<p class="special-price">
+																	<span class="price" th:text="${products.price}"></span>
+																</p>
+																<p class="old-price">
+																	<span class="price-sep">-</span> <span class="price"
+																		th:text="${products.discount}"></span>
+																</p>
+															</div>
+														</div>
+														<!--item-content-->
+													</div>
+													<!--info-inner-->
+
+													<!--actions-->
+
+													<div class="clearfix"></div>
+												</div>
+											
+										</div>
+										<!-- End Item -->
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- Footer -->
+		<footer th:replace="fragments/footer :: html_footer" />
+		<!-- End Footer -->
+	</div>
+
+	<!-- JavaScript -->
+	<script type="text/javascript">
+		function deleteCart() {			
+			$.ajax({
+				url : "/capnhatgiohang",
+				type : "get",
+				data : {
+					Id : ID,
+					IdAddress : addressID,
+
+				},
+				success : function(response) {
+					console.log(response);
+					
+				},
+				error : function(xhr) {
+					arlet("xuất hiện lỗi xảy ra");
+				}
+			});
+		}
+	</script>
+	<!-- function select for address   -->
+	<script type="text/javascript">
+		var ID = "";
+		var addressID = "";
+		function selectAddress(id) {
+			var checkID = id;
+			console.log(checkID);
+			if (checkID == "D") {
+				ID = document.getElementById("country").value;
+				addressID = "country";
+			} else if (checkID == "W") {
+				ID = document.getElementById("district").value;
+				addressID = "district";
+			} else {
+				ID = document.getElementById("ward").value;
+				addressID = "ward";
+			}
+			$.ajax({
+				url : "/chondiachi",
+				type : "get",
+				data : {
+					Id : ID,
+					IdAddress : addressID,
+
+				},
+				success : function(response) {
+					console.log(response);
+					if (addressID == "country") {
+						$("#district").html(response);
+					} else if (addressID == "district") {
+						$("#ward").html(response);
+					} else {
+						$("#village").html(response);
+					}
+				},
+				error : function(xhr) {
+					arlet("xuất hiện lỗi xảy ra");
+				}
+			});
+		}
+	</script>
+	<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/common.js}"></script>
+	<script type="text/javascript" th:src="@{/js/owl.carousel.min.js}"></script>
+</body>
+</html>

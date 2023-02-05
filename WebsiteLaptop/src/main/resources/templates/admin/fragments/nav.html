@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+	<nav th:fragment="html_nav"
+		class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+		<div class="navbar-header">
+			<a class="navbar-brand" href="index.html">Startmin</a>
+		</div>
+
+		<ul class="nav navbar-nav navbar-left navbar-top-links">
+			<li><a th:href="@{/}"><i class="fa fa-home fa-fw"></i>Trang web</a></li>
+		</ul>
+
+		<ul class="nav navbar-right navbar-top-links">
+		  <li class="dropdown navbar-inverse">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+              <i class="fa fa-bell fa-fw">1</i> <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu dropdown-alerts">
+              <li th:each="notifys : ${session.listnoify}">
+                <a href="#"  >
+                  <div>
+                    <i class="fa fa-comment fa-fw" ></i> <span th:text="${notifys.content}"></span>
+                  </div>
+                </a>
+              </li>
+          
+              
+              <li class="divider"></li>
+              <li>
+                <a class="text-center" href="#">
+                  <strong>Xem Tất cả</strong>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+              </li>
+            </ul>
+          </li>
+			<li class="dropdown"><a class="dropdown-toggle"
+				data-toggle="dropdown" href="#"> <i class="fa fa-user fa-fw">
+				</i>
+					 <b class="caret"></b>
+			</a>
+				<ul class="dropdown-menu dropdown-user">
+					<li><a th:href="@{/admin/account/profile}"><i class="fa fa-user fa-fw"></i> Tài Khoản</a></li>
+					
+					<li class="divider"></li>
+					<li><a th:href="@{/admin/system/logout}"><i class="fa fa-sign-out fa-fw"></i>
+							Đăng xuất</a></li>
+				</ul></li>
+		</ul>
+		<!-- /.navbar-top-links -->
+
+		<div class="navbar-default sidebar" role="navigation">
+			<div class="sidebar-nav navbar-collapse">
+				<ul class="nav" id="side-menu">
+					<li class="sidebar-search">
+						<div class="input-group custom-search-form">
+							<input type="text" class="form-control" placeholder="Search..." />
+							<span class="input-group-btn">
+								<button class="btn btn-primary" type="button">
+									<i class="fa fa-search"></i>
+								</button>
+							</span>
+						</div> <!-- /input-group -->
+					</li>
+					<li><a th:href="@{/admin/dashbroad/statistics}"><i
+							class="fa fa-dashboard fa-fw"></i> Trang chủ</a></li>
+
+					<li><a th:href="@{/admin/manage/product/list}"><i
+							class="fa fa-table fa-fw"></i> Tất cả sản phẩm</a></li>
+					<li><a th:href="@{/admin/manage/category/list}"><i
+							class="fa fa-edit fa-fw"></i> Danh mục sản phẩm</a></li>
+					<li><a th:href="@{/admin/manage/brand/list}"><i
+							class="fa fa-trademark fa-fw"></i>Thương hiệu sản phẩm</a></li>
+					<li><a th:href="@{/admin/manage/user/list}"><i
+							class="fa fa-user fa-fw"></i> Quản lý khách hàng </a></li>
+					<li><a th:href="@{/admin/manage/cart/list}"><i
+							class="fa fa-shopping-cart fa-fw"></i> Quản lý giỏ hàng </a></li>
+					<li><a th:href="@{/admin/manage/order/list}"><i
+							class="fa fa-first-order fa-fw"></i> Quản lý đơn hàng </a></li>
+					<li><a th:href="@{/admin/manage/transaction/list}"><i
+							class="fa fa-truck fa-fw" aria-hidden="true"></i> Quản lý vận
+							chuyển </a></li>
+							<li><a th:href="@{/admin/manage/bill/list}"><i
+							class="fa fa-truck fa-fw" aria-hidden="true"></i> Quản lý Hóa đơn </a></li>
+					<li><a th:href="@{/admin/manage/reviews/list}"><i
+							class="fa fa-comment fa-fw"></i> Quản lý bình luận </a></li>
+							<li><a th:href="@{/admin/manage/notify/list}"><i
+							class="fa fa-comment fa-fw"></i> Quản lý thông báo </a></li>
+							<li><a th:href="@{/admin/manage/banner/list}"><i
+							class="fa fa-comment fa-fw"></i> Quản lý banner </a></li>
+					<li>
+
+				</ul>
+			</div>
+			<!-- /.sidebar-collapse -->
+		</div>
+		<!-- /.navbar-static-side -->
+	</nav>
+
+</body>
+</html>

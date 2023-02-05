@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/fragments :: html_head" />
+<body>
+	<div class="page">
+		<!-- Header -->
+		<header th:replace="fragments/header :: html_header" />
+
+		<!-- end header -->
+		<!-- Navbar -->
+		<nav th:replace="fragments/menu :: html_menu" />
+
+		<!-- end nav -->
+
+		<!-- breadcrumbs -->
+
+		<div class="breadcrumbs">
+			<div class="container">
+				<div class="row">
+					<ul>
+						<li class="home"><a title="Go to Home Page"
+							href="http://www.magikcommerce.com/">Tài Khoản</a><span>&mdash;›</span></li>
+						<li class="category13"><strong sec:authentication="name"></strong></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<!-- main-container -->
+		<div class="main-container col2-right-layout">
+			<div class="main container">
+				<div class="row">
+					<section class="col-main col-sm-9 wow">
+						<div class="page-title">
+							<h2>Thông tin tài khoản</h2>
+						</div>
+						<form  id="information" action="/tai-khoan/cap-nhat/thong-tin-tai-khoan" method="post" th:object="${informations}" enctype="multipart/form-data">
+							<div class="static-contain">
+								<fieldset class="group-select">
+									<ul>
+										<li id="billing-new-address-form">
+											<fieldset>
+												<ul>
+													<li>
+														<div class="customer-name">
+															<div class="input-box name-firstname">
+															 <input type="hidden" th:field="${informations.id}" id="custId" name="" th:value="${informations.id}">
+																<label for="billing:firstname">Tên Người Dùng<span
+																	class="required">*</span></label> <br> <input type="text"
+																	name="firstname" th:value="${users.name}"
+																	title="" class="input-text ">
+															</div>
+															<div class="input-box name-lastname">
+																<label for="billing:lastname">Email<span
+																	class="required">*</span>
+																</label> <br> <input type="text" id="email" value=""
+																	class="input-text"
+																	th:field="${users.accountDto.email}" disabled="disabled">
+
+															</div>
+														</div>
+													</li>
+													<li>
+														<div class="input-box">
+															<label for="date:birthday">Ngày sinh:</label> <input
+																type="date" name="date:birthday" th:field="${informations.dateBrithday}"  
+																value="" 
+																class="input-text">
+														</div>
+														<div class="input-box">
+															<label for="sex:female_male">Giới tính</label> <br>
+															<br> <label class="checkbox-inline"> <input
+																type="checkbox" value="Nam" th:field="${informations.sex}">Nam
+															</label> <label class="checkbox-inline"> <input
+																type="checkbox" value="Nữ" th:field="${informations.sex}">Nữ
+															</label> <label class="checkbox-inline"> <input
+																type="checkbox" value="Khác" th:field="${informations.sex}">Khác
+															</label>
+														</div>
+													</li>
+													<li>
+														<div class="input-box">
+															<label for="billing:company">Công ty</label> <br> <input
+																type="text" id="company" name="company" value=""
+																th:field="*{company}" class="input-text">
+														</div>
+														<div class="input-box">
+															<label for="billing:email">Số điện thoại<span
+																class="required">*</span></label> <br> <input type="text"
+																name="phone" id="phone" value="" th:field="${informations.phone}"
+																class="input-text validate-email" >
+														</div>
+													</li>
+													<li>
+														<div class="input-box">
+															<label class="required" for="country">Thành
+																Phố/Tỉnh</label> <select title="Country" class="validate-select"
+																id="country" name="country_id"
+																onclick="selectAddress('D')" th:field="${informations.province}">
+																<option th:each="province: ${listProvince}"
+																	th:value="${province.provinceid}"
+																	th:text="${province.name}" th:selected="${province.provinceid==informations.province}"></option>
+															</select>
+														</div>
+														<div class="input-box">
+															<label for="region_id">Quận/Huyện</label> <select
+																id="district" class="required-entry validate-select"
+																onclick="selectAddress('W')"  th:field="${informations.district}">
+																<option th:each="district :${listdistrict}"  th:value="${district.districtid}" th:selected="${district.districtid==informations.district}" th:text="${district.name}"></option>
+															</select>
+														</div>
+
+													</li>
+													<li>
+														<div class="input-box">
+															<label for="region_id">Phường/Xã</label> <select
+																id="ward" onclick="selectAddress('V')"
+																class="required-entry validate-select"
+																th:field="*{ward}">
+																<option th:each="ward :${listward}"  th:value="${ward.wardid}" th:selected="${ward.wardid==informations.ward}" th:text="${ward.name}"></option>
+															</select>
+														</div>
+														<div class="input-box">
+															<label for="region_id">Thôn/Tổ/Ấp</label> <select
+																id="village" class="required-entry validate-select"
+																th:field="${informations.village}">
+																<option th:each="village :${listvillage}"  th:value="${village.villageid}" th:selected="${village.villageid==informations.village}" th:text="${village.name}"></option>
+															</select>
+														</div>
+													</li>
+													<li class=""><label for="comment">Ghi chú<em
+															class="required">*</em></label> <br>
+														<div style="float: none" class="">
+															<textarea name="comment" id="comment" title="Comment"
+																class="required-entry input-text" cols="5" rows="3"
+																th:field="${informations.note}"></textarea>
+														</div></li>
+												</ul>
+											</fieldset>
+										</li>
+										<p class="require">
+											<em class="required">* </em>
+										</p>
+										<input type="text" name="hideit" id="hideit" value=""
+											style="display: none !important;">
+										<div class="buttons-set">
+											<button type="submit" title="Submit" class="button submit">
+												<span>Cập nhật</span>
+											</button>
+											<button type="button" title="Submit" class="button submit">
+												<span>Xóa</span>
+											</button>
+										</div>
+									</ul>
+								</fieldset>
+
+							</div>
+						</form>
+						<br> <br>
+						<div class="page-title">
+							<h2 style="text-align: center;">Thảy đổi mật khẩu</h2>
+						</div>
+						<form action="/tai-khoan/thong-tin-tai-khoan/thay-doi/mat-khau" method="post" id="profile">
+
+							<div class="static-contain">
+								<fieldset class="group-select">
+									<ul>
+										<li>
+											<fieldset>
+												<ul>
+													<li>
+														<div class="customer-name">
+															<div class="input-box name-firstname">
+																<label for="billing:firstname">Mật khẩu cũ<span
+																	class="required">*</span></label> <br> <input
+																	type="password" id="password_old" th:name="password_old"
+																	value="" title="First Name" class="input-text ">
+															</div>
+															<div class="input-box name-lastname">
+																<label for="billing:lastname">Mật khẩu mới<span
+																	class="required">*</span>
+																</label> <br> <input type="password" id="password_new"
+																	th:name="password_new" value="" title="Last Name"
+																	class="input-text">
+															</div>
+														</div>
+													</li>
+
+													<li>
+														<div class="input-box">
+															<label for="billing:company">Nhập lại mật khẩu</label> <br>
+															<input type="password" id="confirm_password"
+																th:name="confirm_password" class="input-text">
+														</div>
+													</li>
+												</ul>
+											</fieldset>
+
+										</li>
+									</ul>
+									<p class="require">
+										<em id="messenger" class="required">* </em>
+									</p>
+									<div class="buttons-set">
+										<button type="submit" id="btn-add" title="Submit"
+											class="button submit">
+											<span>Cập nhật</span>
+										</button>
+										<button type="button" title="Submit" class="button submit">
+											<span>Xóa</span>
+										</button>
+
+									</div>
+								</fieldset>
+							</div>
+						</form>
+					</section>
+					<aside class="col-right sidebar col-sm-3 wow">
+						<div class="block block-account">
+							<div class="block-title">Tài Khoản</div>
+							<div class="block-content">
+								<ul>
+									<li class="current"><a>Account Dashboard</a></li>
+									<li><a th:href="@{/tai-khoan/thong-tin-tai-khoan}">Thông tin tài
+											khoản</a></li>
+									<li><a th:href="@{/tai-khoan/don-hang/danh-sach-dat-hang}">Dành sách đặt hàng</a></li>
+									<li><a th:href="@{/tai-khoan/danh-gia}">Dành sách đánh giá </a></li>
+										<li><a th:href="@{/tai-khoan/thong-bao/danh-sach-thong-bao}">Dành sách thông báo </a></li>
+		
+									<li><a th:href="@{/tai-khoan/gio-hang}">Giỏ hàng</a></li>
+									<li><a th:href="@{/tai-khoan/dang-xuat}">Đăng xuất</a></li>
+								</ul>
+							</div>
+						</div>
+						<div class="block block-compare">
+							<div class="block-title ">
+								<span>Sản phẩm đã xem</span>
+							</div>
+							<div class="block-content">
+							
+									
+								</div>
+							</div>
+						</div>
+					</aside>
+			
+				</div>
+			</div>
+		</div>
+		<!--End main-container -->
+		<!-- Footer -->
+		<footer th:replace="fragments/footer :: html_footer" />
+
+		<!-- End Footer -->
+	</div>
+	<!-- JavaScript -->
+	<script type="text/javascript" th:src="@{/../js/jquery.min.js}"></script>
+	<script type="text/javascript" th:src="@{/../js/bootstrap.min.js}"></script>
+
+	<script type="text/javascript" th:src="@{/../js/common.js}"></script>
+	<script type="text/javascript" th:src="@{/../js/owl.carousel.min.js}"></script>
+	
+<script type="text/javascript">
+$(document).ready(function() {
+	$('#information').submit(function(event) {
+		event.preventDefault();
+		ajaxCategory();
+	});
+			function ajaxCategory() {
+				var form = $('#information')[0];
+				var data = new FormData(form);
+				$.ajax({
+					url : "/tai-khoan/thong-tin-tai-khoan/cap-nhat",
+					type : "POST",
+					enctype : 'multipart/form-data',
+					data : data,
+					processData : false,
+					contentType : false,
+					success : function(data) {
+						if (data) {
+							alert("Bạn đã cập nhật thông tin thành công ");
+						} else {
+							alert("lỗi quá trình xử lý ");
+						}
+					}
+				})
+			}	});
+</script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('#profile').submit(function(e) {		e.preventDefault();
+
+				var password_old = $('#password_old').val();
+				var password_new = $("#password_new").val();
+				var password_confirm = $("#confirm_password").val();
+				console.log(password_old);
+
+			
+				$.ajax({
+					url : '/tai-khoan/thong-tin-tai-khoan/thay-doi/mat-khau',
+					type : 'post',
+					data : {
+						pass_old : password_old,
+						pass_new : password_new,
+					},
+					success : function(data,status,httpStatus) {
+						if(data){
+							alert("Bạn đã thảy đổi mật khẩu thành công!Vui lòng đăng nhập lại");
+							window.location = "/tai-khoan/dang-xuat";
+						}else {
+						$('#messenger').html("<em id='messenger' class='required'>*Mật khẩu cũ nhập sai </em>");
+
+						}
+
+					},
+					error: function (xhr) {
+						alert("xuất hiện lỗi xảy ra"+xhr);
+
+					}
+				});
+
+			});
+
+		});
+		
+	</script>
+
+	<script type="text/javascript">
+		
+		function selectAddress(id) {
+			var ID = "";
+			var addressID = "";
+			var checkID = id;
+			if (checkID == "D") {
+				ID = document.getElementById("country").value;
+				addressID = "country";
+			} else if (checkID == "W") {
+				ID = document.getElementById("district").value;
+				addressID = "district";
+			} else {
+				ID = document.getElementById("ward").value;
+				addressID = "ward";
+			}
+			$.ajax({
+				url : "/chondiachi",
+				type : "get",
+				data : {
+					Id : ID,
+					IdAddress : addressID,
+
+				},
+				success : function(response) {
+					console.log(response);
+					if (addressID == "country") {
+						console.log("runing");
+
+						$("#district").html(response);
+					} else if (addressID == "district") {
+						$("#ward").html(response);
+					} else {
+						$("#village").html(response);
+					}
+				},
+				error : function(xhr) {
+					arlet("xuất hiện lỗi xảy ra");
+				}
+			});
+		}
+	</script>
+
+</body>
+
+</html>

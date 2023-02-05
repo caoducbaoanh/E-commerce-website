@@ -1,0 +1,323 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/fragments/head:: html_head" />
+<body>
+	<div id="wrapper">
+		<!-- Navigation -->
+		<nav th:replace="admin/fragments/nav::html_nav" />
+
+		<div id="page-wrapper">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-lg-12">
+						<h1 class="page-header" th:text="${title}"></h1>
+					</div>
+					<!-- /.col-lg-12 -->
+				</div>
+				<!-- /.row -->
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="panel panel-default">
+							<!-- /.panel-heading -->
+							<div class="panel-body">
+								<div class="table-responsive">
+									<button type="button" class="btn_add" data-toggle="modal"
+										data-target="#myModal">Thêm mới</button>
+									<form id="product" th:action="@{/admin/manage/product/add}"
+										method="post" enctype="multipart/form-data">
+
+										<div class="modal fade" id="myModal" role="dialog">
+											<div class="modal-dialog" style="width: 100%;">
+												<!-- Modal content-->
+												<div class="container-fluid row">
+
+													<div class="col-lg-5" th:object="${products}">
+														<div class="modal-content">
+															<div class="modal-header">
+																<h4 style="text-align: center;">Thêm sản phẩm</h4>
+															</div>
+															<div class="modal-body">
+																<div class="row">
+																	<div class="col-lg-6 col-xs-12">
+																		<div class="form-group">
+																			<label for="">Tên Sản phẩm</label> <input type="text"
+																				class="form-control" id="name_product"
+																				th:field="${products.name}" aria-describedby=""
+																				placeholder="">
+																		</div>
+																		<div class="form-group">
+																			<label for="">Tên Hiển thị</label> <input type="text"
+																				class="form-control" id="name_title" placeholder="">
+																		</div>
+																		<div class="form-group">
+																			<label for=""></label> Ngày tạo <input type="date"
+																				class="form-control" id="create-date" placeholder=""
+																				th:field="${products.createdDate}">
+																		</div>
+																		<div class="form-group">
+																			<label for="">Giá</label> <input type="number"
+																				class="form-control" id="price" placeholder=""
+																				th:field="${products.price}">
+																		</div>
+																		<div class="form-group">
+																			<label for=""> Thể loại </label> <select
+																				class="form-control" name="categorys">
+																				<option th:each="categories : ${categorys}"
+																					th:value="${categories.id}"
+																					th:text="${categories.name}"></option>
+
+																			</select>
+																		</div>
+																		<div class="form-group">
+																			<label for="">Hình ảnh </label> <input type="file"
+																				id="upload_file" name="upload_file"
+																				onchange="preview_image();" multiple />
+
+																		</div>
+																	</div>
+																	<div class="col-lg-6 col-xs-12">
+																		<div class="form-group">
+																			<label for="">Giám giá</label> <input type="number"
+																				class="form-control" id="discount=price"
+																				th:field="${products.discount}"
+																				aria-describedby="emailHelp" placeholder="">
+																		</div>
+																		<div class="form-group">
+																			<label for=""> Thương hiệu </label> <select
+																				class="form-control" id="trademark_product"
+																				name="trademark_product">
+																				<option th:each="brands : ${brands}"
+																					th:value="${brands.id}" th:text="${brands.name}"></option>
+																			</select>
+																		</div>
+																		<div class="form-group">
+																			<label for="">Số lượng </label> <input type="number"
+																				class="form-control" id="amount_product"
+																				placeholder="" th:field="${products.quantity}">
+																		</div>
+																		<div class="form-group">
+																			<label for="">Mô tả</label>
+																			<textarea rows="7" cols="100" type="text"
+																				class="form-control" id="description" placeholder=""
+																				th:field="*{description}"></textarea>
+																		</div>
+
+																	</div>
+																</div>
+															</div>
+
+														</div>
+														<div id="image_preview"></div>
+													</div>
+
+													<div class="col-lg-7">
+														<div class="modal-content" th:object="${product_details}">
+															<div class="modal-header">
+																<h4 style="text-align: center;">Chi tiết sản phẩm</h4>
+															</div>
+															<div class="modal-body">
+																<div class="row">
+																	<div class="col-lg-4 col-xs-12">
+																		<div class="form-group">
+																			<label for="">Thương hiệu </label> <input type="text"
+																				class="form-control input-sm" id="trademark"
+																				th:field="${product_details.trademark}"
+																				aria-describedby="trademark" placeholder="">
+																		</div>
+																		<div class="form-group">
+																			<label for="">Thời gian bảo hành</label> <input
+																				type="number" class="form-control input-sm"
+																				id="guarantee" placeholder=""
+																				th:field="${product_details.guarantee}">
+																		</div>
+																		<div class="form-group">
+																			<label for=""></label> Màu sắc<input type="text"
+																				class="form-control input-sm" id="color"
+																				placeholder="" th:field="${product_details.color}">
+																		</div>
+																		<div class="form-group">
+																			<label for="">Series Laptop</label> <input
+																				type="text" class="form-control input-sm"
+																				id="Series-laptop" placeholder=""
+																				th:field="${product_details.seriesLaptop}">
+																		</div>
+																		<div class="form-group">
+																			<label for="">Part Number</label> <input type="text"
+																				class="form-control input-sm " id="Part-number"
+																				placeholder=""
+																				th:field="${product_details.part_number}">
+																		</div>
+																		<div class="form-group">
+																			<label for="">Thế hệ CPU</label> <input type="text"
+																				class="form-control input-sm" id="generation"
+																				placeholder=""
+																				th:field="${product_details.CPUgeneration}">
+																		</div>
+																		<div class="form-group">
+																			<label for="">Thông tin CPU</label>
+																			<textarea type="text" class="form-control input-sm"
+																				id="Information-CPU" placeholder=""
+																				th:field="${product_details.CPU}"></textarea>
+																		</div>
+																		<div class="form-group">
+																			<label for="">Chip đồ họa</label> <input type="text"
+																				class="form-control input-sm" id="graphics-chip"
+																				placeholder=""
+																				th:field="${product_details.graphics_chip}">
+																		</div>
+																	</div>
+																	<div class="col-lg-4 col-xs-12">
+
+																		<div class="form-group">
+																			<label for=""></label>Bộ nhớ trong(Ram)<input
+																				type="text" class="form-control input-sm" id="ram"
+																				placeholder="" th:field="${product_details.RAM}">
+																		</div>
+																		<div class="form-group">
+																			<label for="">Màn hình</label> <input type="text"
+																				class="form-control input-sm" id="display"
+																				placeholder="" th:field="${product_details.screen}">
+																		</div>
+																		<div class="form-group">
+																			<label for="">Lưu trữ</label> <input type="text"
+																				class="form-control input-sm " id="storage"
+																				placeholder="" th:field="${product_details.storage}">
+																		</div>
+																		<div class="form-group">
+																			<label for="">maximum number of storage port</label>
+																			<input type="text" class="form-control input-sm"
+																				id="storage-port" placeholder=""
+																				th:field="${product_details.maximum_number_of_storage_port}">
+																		</div>
+																		<div class="form-group">
+																			<label for="">supportedm 2slot type</label> <input
+																				type="text" class="form-control input-sm"
+																				id="slot-type" placeholder=""
+																				th:field="${product_details.supportedM_2slot_type}">
+																		</div>
+																		<div class="form-group">
+																			<label for="">Cổng kết nối (màn hình) </label> <input
+																				type="text" class="form-control input-sm"
+																				id="output-display" placeholder=""
+																				th:field="${product_details.output_port}">
+																		</div>
+																		<div class="form-group">
+																			<label for="">Cổng kết nối </label> <input
+																				type="text" class="form-control input-sm"
+																				id="output-port" placeholder=""
+																				th:field="${product_details.connector}">
+																		</div>
+																		<div class="form-group">
+																			<label for="">Wireless conection</label> <input
+																				type="text" class="form-control" id="Wireless"
+																				th:field="${product_details.wireless_Connectivity}"
+																				aria-describedby="emailHelp" placeholder="">
+																		</div>
+																		<div class="form-group">
+																			<label for="">Bàn phím</label> <input type="text"
+																				class="form-control" id="keyword" placeholder=""
+																				th:field="${product_details.keyboard}">
+																		</div>
+																	</div>
+																	<div class="col-lg-4 col-xs-12">
+
+																		<div class="form-group">
+																			<label for="">Hệ điệu hành</label> <input type="text"
+																				class="form-control" id="operating-system"
+																				placeholder=""
+																				th:field="${product_details.operating_system}">
+																		</div>
+																		<div class="form-group">
+																			<label for="">Kích thước</label> <input type="text"
+																				class="form-control" id="size" placeholder=""
+																				th:field="${product_details.size}">
+																		</div>
+																		<div class="form-group">
+																			<label for="">trọng lương</label> <input
+																				type="number" class="form-control" id="weight"
+																				placeholder="" th:field="${product_details.weight}"
+																				step="0.01">
+																		</div>
+																		<div class="form-group">
+																			<label for="">pin</label> <input type="text"
+																				class="form-control" id="battery" placeholder=""
+																				th:field="${product_details.Pin}">
+																		</div>
+																		<div class="form-group">
+																			<label for="">bảo mật</label> <input type="text"
+																				class="form-control" id="security" placeholder=""
+																				th:field="${product_details.security}">
+																		</div>
+																		<div class="form-group">
+																			<label for="">Đèn led</label> <input type="text"
+																				class="form-control" id="light-led" placeholder=""
+																				th:field="${product_details.LED_light_on_machine}">
+																		</div>
+																		<div class="form-group">
+																			<label for="">Phụ kiện</label> <input type="text"
+																				class="form-control" id="included" placeholder=""
+																				th:field="${product_details.included}">
+																		</div>
+																	</div>
+																</div>
+															</div>
+
+														</div>
+													</div>
+												</div>
+												<div class="modal-footer">
+													<button type="submit" class="btn addPD">Thêm mới</button>
+													<button type="button" class="btn btn-default"
+														data-dismiss="modal">Đóng</button>
+												</div>
+											</div>
+										</div>
+									</form>
+									<div id="product-edit"></div>
+								</div>
+
+
+								<table class="table table-striped table-bordered table-hover"
+									id="dataTables-products">
+									<thead>
+										<tr>
+											<th>STT</th>
+											<th>Tên sản phẩm</th>
+											<th>Hình ảnh</th>
+											<th>Thương hiệu</th>
+											<th>Giá</th>
+											<th>Mô tả</th>
+											<th>Tình trạng</th>
+											<th>sửa</th>
+											<th>Xóa</th>
+										</tr>
+									</thead>
+									<tbody>
+
+
+									</tbody>
+								</table>
+							</div>
+							<!-- /.table-responsive -->
+						</div>
+						<!-- /.panel-body -->
+					</div>
+					<!-- /.panel -->
+				</div>
+				<!-- /.col-lg-12 -->
+			</div>
+			<!-- /.row -->
+
+			<!-- /.row -->
+		</div>
+		<!-- /.container-fluid -->
+	</div>
+	<!-- /#page-wrapper -->
+	</div>
+	<!-- /#wrapper -->
+
+	<th:block th:replace="admin/fragments/script :: html_script" />
+	<script type="text/javascript" th:src="@{/js/ajax.js}"></script>
+</body>
+</html>

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="">
+<title>Shop lapTop</title>
+<!-- Favicons Icon -->
+<link rel="icon"
+	href="http://demo.magikthemes.com/skin/frontend/base/default/favicon.ico"
+	type="image/x-icon" />
+<link rel="shortcut icon"
+	href="http://demo.magikthemes.com/skin/frontend/base/default/favicon.ico"
+	type="image/x-icon" />
+<!-- Mobile Specific -->
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1">
+<!-- CSS Style -->
+<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
+<link rel="stylesheet" href="css/style.css" type="text/css">
+<link rel="stylesheet" href="css/revslider.css" type="text/css">
+<link rel="stylesheet" href="css/owl.carousel.css" type="text/css">
+<link rel="stylesheet" href="css/owl.theme.css" type="text/css">
+<link rel="stylesheet" href="css/font-awesome.css" type="text/css">
+<!-- Google Fonts -->
+<link href='https://fonts.googleapis.com/css?family=Roboto:400,500,700'
+	rel='stylesheet' type='text/css'>
+</head>
+<body>
+	<header th:fragment="html_header" class="header-container">
+		<div class="header-top">
+			<div class="container">
+				<div class="row">
+					<!-- Header Language -->
+					<div class="col-xs-6">
+						<div class="dropdown block-language-wrapper">
+							<a role="button" data-toggle="dropdown" data-target="#"
+								class="block-language dropdown-toggle" href="#"> <img
+								src="../images/english.png" alt="language"> English <span
+								class="caret"></span>
+							</a>
+							<ul class="dropdown-menu" role="menu">
+								<li role="presentation"><a role="menuitem" tabindex="-1"
+									href="#"><img src="../images/english.png" alt="language">
+										English </a></li>
+								<li role="presentation"><a role="menuitem" tabindex="-1"
+									href="#"><img src="../images/francais.png" alt="language">
+										French </a></li>
+								<li role="presentation"><a role="menuitem" tabindex="-1"
+									href="#"><img src="../images/german.png" alt="language">
+										German </a></li>
+							</ul>
+						</div>
+						<!-- End Header Language -->
+						<!-- Header Currency -->
+						<div class="dropdown block-currency-wrapper">
+							<a role="button" data-toggle="dropdown" data-target="#"
+								class="block-currency dropdown-toggle" href="#"> USD <span
+								class="caret"></span></a>
+							<ul class="dropdown-menu" role="menu">
+								<li role="presentation"><a role="menuitem" tabindex="-1"
+									href="#"> Đ - VND </a></li>
+								<li role="presentation"><a role="menuitem" tabindex="-1"
+									href="#"> £ - Pound </a></li>
+								<li role="presentation"><a role="menuitem" tabindex="-1"
+									href="#"> € - Euro </a></li>
+							</ul>
+						</div>
+						<!-- End Header Currency -->
+						<div class="welcome-msg hidden-xs">Xin chào mừng bạn đến
+							shoplaptop</div>
+					</div>
+					<div class="col-xs-6">
+						<!-- Header Top Links -->
+						<div class="toplinks">
+							<div class="links" sec:authorize="isAuthenticated()">
+								<div class="myaccount">
+									 <i class="fa fa-bell fa-fw">1</i> <b class="caret"></b>
+								</div>
+								<div class="myaccount">
+									<a sec:authorize="hasRole('USER')" 
+										th:href="@{/tai-khoan/thong-tin-tai-khoan}"><span
+										class="hidden-xs"> Tài khoản</span></a>
+											<a sec:authorize="hasRole('ADMIN')" 
+										th:href="@{/admin/dashbroad/statistics}"><span
+										class="hidden-xs">Quản lý trang web</span></a>
+								</div>
+							
+								<div class="wishlist">
+									<a sec:authorize="hasRole('USER')" title="order"
+										th:href="@{/tai-khoan/don-hang/danh-sach-dat-hang}"><span
+										class="hidden-xs">Đơn hàng</span></a>
+								</div>
+								<div class="check">
+									<a title="Checkout" th:href="@{/tai-khoan/dang-xuat}"><span
+										class="hidden-xs">Đăng xuất</span></a>
+								</div>
+								<div class="hidden-xs" sec:authentication="name"></div>
+								
+							</div>
+						</div>
+						<!-- End Header Top Links -->
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="header container">
+			<div class="row">
+				<div class="col-lg-2 col-sm-3 col-md-2 col-xs-12">
+					<!-- Header Logo -->
+					<a class="logo" title="Magento Commerce" th:href="@{/}"><img
+						alt="Magento Commerce" src="/images/logo.png"></a>
+					<!-- End Header Logo -->
+				</div>
+				<div class="col-lg-7 col-sm-4 col-md-6 col-xs-12">
+					<!-- Search-col -->
+					<div class="search-box">
+						<form th:action="@{/sanpham/tim-kiem/}" method="get" id="search_mini_form"
+							name="Categories">
+							<select id="keyword" class="cate-dropdown hidden-xs" name="valueID">
+								<option value="all">Tất cả</option>
+								<option th:each=" categories :${session.listCategory}"
+									th:value="${categories.id}" th:text="${categories.name}"></option>
+								<option th:each=" brands :${session.listBrand}"
+									th:value="${brands.id}" th:text="${brands.name}"></option>
+
+							</select> <input type="text" placeholder="Tìm kiếm sản phẩm..." value=""
+								maxlength="70" class="search" list="datalistkey" name="search"
+								id="search">
+							<datalist id="datalistkey" >
+								<option value=""></option>
+								
+							</datalist>
+							<button id="submit-button" class="search-btn-bg" style="width:14%;">
+								<span>Tìm kiếm</span>
+							</button>
+						</form>
+					</div>
+					<!-- End Search-col -->
+				</div>
+				<!-- Top Cart -->
+				<div class="col-lg-3 col-sm-5 col-md-4 col-xs-12">
+					<div class="top-cart-contain">
+						<div id="cart" class="mini-cart">
+							<div data-toggle="dropdown" data-hover="dropdown"
+								class="basket dropdown-toggle">
+								<a href="shopping_cart.html"> <i class="icon-cart"></i>
+									<div class="cart-box">
+										<span class="title">Giỏ hàng</span><span
+											sec:authorize="isAuthenticated()"
+											th:if="${session.cart !=null}"
+											th:text="${session.cartuser.getProduct().size()}" id="cart-total"> </span>
+									</div>
+								</a>
+							</div>
+							<div>
+								<div class="top-cart-content arrow_box">
+									<div class="block-subtitle">Dành Sách Giỏ Hàng</div>
+									<ul id="cart-sidebar" class="mini-products-list">
+										<li id="load" sec:authorize="isAuthenticated()"
+											th:each="products : ${session.cartuser.getProduct()}" class="item even"><a
+											class="product-image" href="#" title="Downloadable Product "><img
+												alt="Downloadable Product "
+												th:src="@{'/'+${products.getImages().get(0).getName()}}"
+												width="80"></a>
+											<div class="detail-item">
+												<div class="product-details">
+													<a href="#" title="Remove This Item" onClick=""
+														class="glyphicon glyphicon-remove">&nbsp;</a> <a
+														class="glyphicon glyphicon-pencil" title="Edit item"
+														href="#">&nbsp;</a>
+													<p class="product-name">
+														<a href="#" title="Downloadable Product"
+															th:text="${products.name}"> </a>
+													</p>
+												</div>
+												<div class="product-details-bottom">
+													<span class="price"  th:text="${products.price}"></span> <span class="title-desc">Số
+														lượng</span> <strong>1</strong>
+												</div>
+											</div></li>
+
+									</ul>
+									<div class="top-subtotal">
+										Tổng tiền<span class="price" sec:authorize="isAuthenticated()" th:if="${session.cartuser !=null}"  th:text="${#numbers.formatDecimal(session.cartuser.total_price, 0, 'COMMA', 2, 'POINT')}"></span>
+									</div>
+									<div class="actions">
+										<button class="btn-checkout" type="button">
+											<span>Checkout</span>
+										</button>
+										<button class="view-cart" type="button">
+										<a th:href="@{/tai-khoan/gio-hang}">	<span>Xem Giỏ Hàng</span></a>
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div id="ajaxconfig_info" style="display: none">
+							<a href="#/"></a> <input value="" type="hidden"> <input
+								id="enable_module" value="1" type="hidden"> <input
+								class="effect_to_cart" value="1" type="hidden"> <input
+								class="title_shopping_cart" value="Go to shopping cart"
+								type="hidden">
+						</div>
+					</div>
+					<div class="signup" sec:authorize="!isAuthenticated()">
+						<a title="Login" th:href="@{/dang-nhap}"><span>Đăng
+								Nhập </span></a>
+					</div>
+					<span class="or"> | </span>
+
+					<div class="login" sec:authorize="!isAuthenticated()">
+						<a title="Login" th:href="@{/dang-ky}"><span>Đăng ký</span></a>
+					</div>
+				</div>
+				<!-- End Top Cart -->
+			</div>
+		</div>
+	</header>
+</body>
+</html>

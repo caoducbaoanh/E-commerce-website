@@ -1,0 +1,209 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/fragments/head:: html_head" />
+<body>
+	<div id="wrapper">
+		<!-- Navigation -->
+		<nav th:replace="admin/fragments/nav::html_nav" />
+
+		<div id="page-wrapper">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-lg-12">
+						<h1 class="page-header" th:text="${title}"></h1>
+					</div>
+					<!-- /.col-lg-12 -->
+				</div>
+				<!-- /.row -->
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="panel panel-default">
+							<!-- /.panel-heading -->
+							<div class="panel-body">
+								<div class="table-responsive">
+									<button type="button" class="btn_add" data-toggle="modal"
+										data-target="#myModal">Gửi Thông báo</button>
+									<form action="#" id="notify"
+										th:action="@{/admin/manage/notify/send}" method="get" >
+										<div class="modal fade" id="myModal" role="dialog">
+											<div class="modal-dialog">
+												<!-- Modal content-->
+												<div class="modal-content">
+													<div class="modal-header">
+														<h4 style="text-align: center;">Gửi THông báo</h4>
+													</div>
+													<div class="modal-body">
+														<div class="form-group">
+															<label for="">Nội Dùng</label> <input type="text"
+																class="form-control" id="content"
+																aria-describedby="" placeholder="" >
+														</div>
+														<div class="form-group">
+															<label for="">Chủ đề</label> <input type="text"
+																class="form-control" id="theme"
+																aria-describedby="" placeholder="" >
+														</div>
+														<div class="Form-group">
+															<label for="cars">Gửi Đến</label>
+															 <select
+																name="cars" id="user" >
+																<option value="all" >Tất cả người dùng</option>
+																<option  th:each=" user:${listUser}" th:value="${user.id}" th:text="${user.accountDto.email}"></option>
+												
+															</select>
+														</div>
+													</div>
+
+													<div class="modal-footer">
+														<button type="submit" class="btn addPD">Gửi Thông báo</button>
+														<button type="button" class="btn btn-default"
+															data-dismiss="modal">Đóng</button>
+													</div>
+												</div>
+											</div>
+										</div>
+									</form>
+									<table class="table table-striped table-bordered table-hover"
+										id="dataTables-notifys">
+										<thead>
+											<tr>
+												<th>STT</th>
+												<th>Nội Dùng</th>
+												<th>Chủ đề</th>
+												<th>Thời gian</th>
+												<th>#</th>
+											</tr>
+										</thead>
+										<tbody>
+										</tbody>
+									</table>
+								</div>
+								<!-- /.table-responsive -->
+							</div>
+							<!-- /.panel-body -->
+						</div>
+						<!-- /.panel -->
+					</div>
+					<!-- /.col-lg-12 -->
+				</div>
+				<!-- /.row -->
+
+				<!-- /.row -->
+			</div>
+			<!-- /.container-fluid -->
+		</div>
+		<!-- /#page-wrapper -->
+	</div>
+	<!-- /#wrapper -->
+
+	<th:block th:replace="admin/fragments/script :: html_script" />
+	<script type="text/javascript">
+		$(document)
+				.ready(
+						function() {
+							$('#dataTables-notifys')
+									.dataTable(
+											{
+												"processing" : true,
+												"serverSide" : false,
+												"pageLength" : 15,
+												"ajax" : {
+													"url" : '/admin/manage/notify/get/list',
+													"type" : 'post',
+													"datatype" : 'json',
+													"contentType" : "application/json; charset=utf-8",
+													"dataSrc" : ""
+												},
+
+												"columns" : [
+														{
+															"data" : "id",
+															"width" : "10%"
+														},
+														{
+															"data" : "content",
+															"width" : "40%"
+														},
+														{
+															"data" : "keyword",
+															"width" : "20%"
+														},
+														{
+															"data" : "time",
+															"width" : "20%"
+														},
+														{
+															"data" : "id",
+															render : function(
+																	data) {
+																return "<button class='btn btn-danger'  onclick='deleteNotify("
+																		+ data
+																		+ ")' >Xóa</button>"
+															}
+														},
+
+												],
+
+											})
+						})
+	</script>
+
+	<script type="text/javascript">
+		function deleteNotify(data) {
+			if (confirm("Bạn muốn xóa thông báo !")) {
+				ajaxDelete(data);
+			} else {
+
+			}
+			function ajaxDelete(data) {
+				$.ajax({
+					url : "/admin/manage/notify/delete",
+					type : "get",
+					data : {
+						id : data,
+					},
+					success : function(response) {
+						if (data) {
+							alert("Bạn đã xóa  thành công");
+							$('#dataTables-notifys').DataTable().ajax.reload();
+						} else {
+							alert("Không xóa được lỗi quá trình xử lý");
+						}
+					},
+				})
+			}
+		}
+	</script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('#notify').submit(function(event) {
+				event.preventDefault();
+				ajaxNotify();
+			});
+			function ajaxNotify() {
+				var content = $('#content').val();
+				var theme = $('#theme').val();
+				var user = $('#user').val();
+				$.ajax({
+					url : "/admin/manage/notify/send",
+					type : "get",
+					data : {
+						content:content,
+						theme :theme,
+						user:user,
+					},
+					success : function(data) {
+						if (data) {
+							alert("Bạn đã gửi thông báo thành công ");
+							$('#dataTables-notifys').DataTable().ajax.reload();
+						} else {
+							alert("lỗi quá trình xử lý ");
+						}
+					}
+				})
+			}
+		});
+	</script>
+</body>
+</html>

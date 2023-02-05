@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/fragments :: html_head" />
+<body>
+<div class="page"> 
+  <!-- Header -->
+  		<header th:replace="fragments/header :: html_header" />
+  
+ <!-- end header --> 
+  <!-- Navbar -->
+  		<nav th:replace="fragments/menu :: html_menu" />
+  
+  <!-- end nav --> 
+  <!--End main-container -->
+  <section class="content-wrapper">
+    <div class="container">
+      <div class="std">
+        <div class="page-not-found">
+          <h2 th:text="*{codeError}" ></h2>
+          <h3 th:text="*{msgerror}"> </h3>
+          <div><a th:href="@{/}" type="button" class="btn-home"><span>Vui lòng quay về trang chủ</span></a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!--End main-container --> 
+  <!-- Footer -->
+  		<footer th:replace="fragments/footer :: html_footer" />
+ <!-- End Footer --> 
+</div>
+
+<!-- JavaScript --> 
+<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script> 
+<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script> 
+ 
+<script type="text/javascript" th:src="@{/js/common.js}"></script> 
+<script type="text/javascript" th:src="@{/js/owl.carousel.min.js}"></script> 
+<script type="text/javascript" th:src="@{/js/cloud-zoom.js}"></script>
+</body>
+
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/fragments :: html_head" />
+<body>
+	<div class="page">
+		<!-- Header -->
+		<header th:replace="fragments/header :: html_header" />
+		<!-- end header -->
+		<!-- Navbar -->
+		<nav th:replace="fragments/menu :: html_menu" />
+
+		<!-- end nav -->
+
+		<!-- main-container -->
+		<div class="main-container col2-right-layout">
+			<div class="main container">
+				<div class="row">
+					<section class="col-main col-sm-9 wow">
+						<div class="my-account">
+							<div class="page-title">
+								<h2>Dành sách đánh giá</h2>
+							</div>
+							<div class="my-wishlist">
+								<div class="table-responsive">
+									<form method="post"
+										action="#/wishlist/index/update/wishlist_id/1/"
+										id="wishlist-view-form">
+										<fieldset>
+											<input type="hidden" value="ROBdJO5tIbODPZHZ" name="form_key">
+											<table id="wishlist-table"
+												class="clean-table linearize-table data-table">
+												<thead>
+													<tr class="first last">
+														<th>Tên San Phẩm</th>
+														<th>Chủ Đề</th>
+														<th>Nội Dung</th>
+														<th>Đánh Giá</th>
+														<th>Ngày Bình luân</th>
+														<th>#</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr id="item_31" class="first odd"
+														th:each="reviews :${user.reviews}">
+														<td><a
+															th:with="url = ${#strings.replace(reviews.product.name,'/','-')}"
+															th:href="@{/sanpham/id/{id}/detail/{dtlId}(id = ${reviews.product.id},dtlId = ${url})}"><h5
+																	th:with="indexof= ${#strings.indexOf(reviews.product.name,'(')}"
+																	th:text="${#strings.substring(reviews.product.name,0,indexof)}"></h5></a></td>
+														<td><h5 th:text="${reviews.title}"></h5></td>
+														<td><h5 th:text="${reviews.comment}"></h5></td>
+														<td><div class="rating-box">
+																<div class="rating"
+																	th:style="'width:' + ${reviews.rating*20}+'%'"></div>
+															</div></td>
+														<td><h5 th:text="${reviews.time}"></h5></td>
+														<td><a class="btn btn-primary" th:onclick="'deleteReview('+${reviews.id}+')'">Xóa</a></td>
+
+
+
+													</tr>
+												</tbody>
+											</table>
+										</fieldset>
+									</form>
+								</div>
+							</div>
+							<div class="buttons-set">
+								<p class="back-link">
+									<a href="#/customer/account/"><small>« </small>Back</a>
+								</p>
+							</div>
+						</div>
+					</section>
+					<aside class="col-right sidebar col-sm-3 wow">
+						<div class="block block-account">
+							<div class="block-title">Tài Khoản</div>
+							<div class="block-content">
+								<ul>
+									<li class="current"><a>Account Dashboard</a></li>
+									<li><a th:href="@{/tai-khoan/thong-tin-tai-khoan}">Thông tin tài
+											khoản</a></li>
+									<li><a th:href="@{/tai-khoan/don-hang/danh-sach-dat-hang}">Dành sách đặt hàng</a></li>
+									<li><a th:href="@{/tai-khoan/danh-gia}">Dành sách đánh giá </a></li>
+										<li><a th:href="@{/tai-khoan/thong-bao/danh-sach-thong-bao}">Dành sách thông báo </a></li>
+									
+									<li><a th:href="@{/tai-khoan/gio-hang}">Giỏ hàng</a></li>
+									<li><a th:href="@{/tai-khoan/dang-xuat}">Đăng xuất</a></li>
+								</ul>
+							</div>
+						</div>
+						<div class="block block-compare">
+							<div class="block-title ">
+								<span>Sản phẩm đã xem</span>
+							</div>
+							<div class="block-content">
+						
+							
+								</div>
+							</div>
+						</div>
+					</aside>
+
+				</div>
+			</div>
+		</div>
+
+		<!--End main-container -->
+		<!-- Footer -->
+		<footer th:replace="fragments/footer :: html_footer" />
+
+		<!-- End Footer -->
+	</div>
+
+
+	<!-- JavaScript -->
+	<script type="text/javascript" th:src="@{../js/jquery.min.js}"></script>
+	<script type="text/javascript" th:src="@{../js/bootstrap.min.js}"></script>
+
+
+	<script type="text/javascript"
+		th:src="@{../js/jquery.jcarousel.min.js}"></script>
+	<script type="text/javascript" th:src="@{../js/cloudzoom.js}"></script>
+
+	<script type="text/javascript" th:src="@{../js/common.js}"></script>
+	<script type="text/javascript" th:src="@{../js/owl.carousel.min.js}"></script>
+	<script type="text/javascript">
+	function deleteReview(data) {
+		if (confirm("Bạn muốn xóa bình luận ?")) {
+			$.ajax({
+				url : '/tai-khoan/danh-gia/xoa',
+				type : "get",
+				data : {
+					id : data,
+				},
+				success : function(response, type) {
+					if (response) {
+						alert("Xóa thành công bình luận");
+						window.location.href="/tai-khoan/danh-gia";
+					} else {
+						alert("Không kích hoạt được lỗi quá trình xử lý");
+					}
+				},
+			})
+		}
+	}	</script>
+</body>
+
+</html>

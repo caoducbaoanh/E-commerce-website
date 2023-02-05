@@ -1,0 +1,33 @@
+								<form id="edit" th:action="@{/admin/manage/brand/add}" method="get"   >
+										<div class="modal fade" id="brands-edit" role="dialog">
+											<div class="modal-dialog">
+												<!-- Modal content-->
+												<div class="modal-content">
+													<div class="modal-header">
+														<h4 style="text-align: center;">Thêm Thương hiệu</h4>
+													</div>
+													<div class="modal-body">
+														<div class="form-group">
+															<label for="">Tên Thương hiệu</label> <input
+																type="text" class="form-control" id="name-brand"
+														 th:field="${brands.name}"	aria-describedby="" placeholder="">
+														</div>
+														<div class="form-group">
+															<label for="">Thể loại</label> 
+															<select class="form-control"  id="category" multiple>
+																<option th:each="categories : ${categories}"
+																	th:value="${categories.id}"
+																	th:text="${categories.name}" ></option>
+																	</select>
+														</div>
+												
+													</div>
+													<div class="modal-footer">
+														<button type="submit" class="btn addPD">Thêm mới</button>
+														<button type="button" class="btn btn-default"
+															data-dismiss="modal">Đóng</button>
+													</div>
+												</div>
+											</div>
+										</div>
+									</form>

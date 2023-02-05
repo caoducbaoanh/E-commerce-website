@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:replace="fragments/fragments :: html_head" />
+<body class="cms-index-index">
+	<div class="page">
+		<!-- Header -->
+		<header th:replace="fragments/header :: html_header" />
+		<!-- end header -->
+		<!-- Navbar -->
+		<nav th:replace="fragments/menu :: html_menu" />
+		<!-- end nav -->
+		<!-- end breadcrumbs -->
+		<div class="breadcrumbs">
+			<div class="container">
+				<div class="row">
+					<ul>
+						<li class="home"><a href="index.html" title="Go to Home Page">SAN
+								PHAM</a><span>›</span></li>
+						<li class=""><a href="grid.html" title="Go to Home Page"
+							th:text="${getProduct.getBrand().name}"></a><span>&mdash;›</span></li>
+						<li class="category13"><strong th:text="${getProduct.name}">
+						</strong></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<!-- end breadcrumbs -->
+		<section class="main-container col1-layout">
+			<div class="main container">
+				<div class="col-main">
+					<div class="row">
+						<div class="product-view wow">
+							<div class="product-essential">
+								<form action="#" method="post" id="product_addtocart_form">
+									<div class="product-img-box col-lg-6 col-sm-6 col-xs-12">
+										<ul class="moreview" id="moreview">
+											<li th:each="product_images :${getProduct.getImages()}"
+												class="moreview_thumb thumb_1"><img
+												class="moreview_thumb_image"
+												th:src="@{'/'+${product_images.name}}"> <img
+												class="moreview_source_image"
+												th:src="@{'/'+${product_images.name}}" alt=""> <span
+												class="roll-over">Xem Hình Ảnh sản phẩm</span> <img
+												style="position: absolute;" class="zoomImg"
+												th:src="@{'/'+${product_images.name}}"></li>
+
+										</ul>
+										<div class="moreview-control">
+											<a style="right: 42px;" href="javascript:void(0)"
+												class="moreview-prev"></a> <a style="right: 42px;"
+												href="javascript:void(0)" class="moreview-next"></a>
+										</div>
+									</div>
+
+									<!-- end: more-images -->
+
+									<div class="product-shop col-lg-6 col-sm-6 col-xs-12">
+										<div class="product-next-prev">
+											<a class="product-next" href="#"><span></span></a> <a
+												class="product-prev" href="#"><span></span></a>
+										</div>
+										<div class="product-name">
+											<h1 id="product-name" th:text="${getProduct.name}" th:value="${getProduct.name}" ></h1>
+										</div>
+										<div class="ratings">
+											<div class="rating-box">
+												<div style="width: 60%" class="rating"></div>
+											</div>
+											<p class="rating-links">
+												<a href="#">Đánh Giá</a> <span class="separator">|</span>
+											</p>
+										</div>
+										<p class="availability in-stock">
+											<span>Khuyễn Mãi</span>
+										</p>
+										<div class="price-block">
+											<div class="price-box">
+												<p class="old-price">
+													<span class="price-label">Giá Cả</span> <span class="price"
+														 th:text="${#numbers.formatDecimal(getProduct.price, 0, 'COMMA', 0, 'POINT')}"></span>
+												</p>
+												<p class="special-price">
+													<span class="price-label">Giá Cũ</span> <span class="price"
+														th:text="${#numbers.formatDecimal(getProduct.price, 0, 'COMMA', 0, 'POINT')}"> </span>VND
+												</p>
+											</div>
+										</div>
+										<div class="short-description">
+											<h2>Tông Quản</h2>
+											<p th:text="${getProduct.description}"></p>
+										</div>
+										<div class="add-to-box">
+											<div class="add-to-cart">
+												<label for="qty">SỐ LƯỢNG</label>
+												<div class="pull-left">
+													<div class="custom pull-left">
+														<button
+															onClick="var result = document.getElementById('qty'); var qty = result.value; if( !isNaN( qty )) result.value++;return false;"
+															class="increase items-count" type="button">
+															<i class="icon-plus">&nbsp;</i>
+														</button>
+														<input type="text" class="input-text qty" title="Qty"
+															value="1" maxlength="12" id="qty" name="qty">
+														<button class="reduced items-count" type="button">
+															<i class="icon-minus">&nbsp;</i>
+														</button>
+													</div>
+												</div>
+												<button th:onclick="|addProductToCart('${getProduct.id}')|"
+													class="button btn-cart" title="Add to Cart" type="button">
+													<span><i class="icon-basket"></i>Thêm Giỏ Hàng</span>
+												</button>
+												<button onClick="productAddToCartForm.submit(this)"
+													class="button btn-cart" title="Add to Cart" type="button">
+													<span>MUA NGÀY</span>
+												</button>
+											</div>
+
+										</div>
+										<div class="email-addto-box">
+											<ul class="add-to-links">
+												<li><a class="link-wishlist" href="#"><span>
+															LAPTOP HOANG POT</span></a></li>
+												<li><span class="separator">|</span> <a
+													class="link-compare" href="#"><span> 0123456789</span></a></li>
+											</ul>
+											<p class="email-friend">
+												<a href="#" class=""><span>@gmail.com</span></a>
+											</p>
+										</div>
+									</div>
+									<div class="custom-box">
+										<img alt="banner" src="images/cus-img.png">
+									</div>
+							</div>
+							</form>
+						</div>
+						<div class="product-collateral">
+							<div class="col-sm-12 wow">
+								<ul id="product-detail-tab" class="nav nav-tabs product-tabs">
+									<li class="active"><a href="#product_tabs_description"
+										data-toggle="tab">Thống số Kĩ thuật</a></li>
+									<li><a href="#reviews_tabs" data-toggle="tab">Đánh Giá</a>
+									<li><a href="#product_tabs_tags" data-toggle="tab">Nội
+											Dùng khác</a></li>
+
+								</ul>
+								<div id="productTabContent" class="tab-content">
+									<div class="tab-pane fade in active"
+										id="product_tabs_description">
+										<div class="std">
+											<h2>Thông số kỹ thuật</h2>
+											<table class="table">
+												<thead>
+													<tr>
+														<th scope="col"></th>
+														<th scope="col"></th>
+														<th scope="col"></th>
+														<th scope="col"></th>
+
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<th>Thương hiệu</th>
+														<th th:text="${getProduct.getDetails().trademark}"></th>
+													</tr>
+													<tr>
+														<th>Bảo hành</th>
+														<th th:text="${getProduct.getDetails().guarantee}"></th>
+													</tr>
+													<tr>
+														<th>Màu sắc</th>
+														<th th:text="${getProduct.getDetails().color}"></th>
+													</tr>
+													<tr>
+														<th>Series laptop</th>
+														<th th:text="${getProduct.getDetails().seriesLaptop}"></th>
+													</tr>
+													<tr>
+														<th>Part-number</th>
+														<th th:text="${getProduct.getDetails().part_number}"></th>
+													</tr>
+													<tr>
+														<th>Thế hệ CPU</th>
+														<th th:text="${getProduct.getDetails().CPUgeneration}"></th>
+													</tr>
+													<tr>
+														<th>CPU</th>
+														<th th:text="${getProduct.getDetails().CPU}"></th>
+													</tr>
+													<tr>
+														<th>Chip đồ họa</th>
+														<th th:text="${getProduct.getDetails().graphics_chip}"></th>
+													</tr>
+													<tr>
+														<th>RAM</th>
+														<th th:text="${getProduct.getDetails().RAM}"></th>
+													</tr>
+													<tr>
+														<th>Màn hình</th>
+														<th th:text="${getProduct.getDetails().screen}"></th>
+													</tr>
+													<tr>
+														<th>Lưu trữ</th>
+														<th th:text="${getProduct.getDetails().storage}"></th>
+													</tr>
+													<tr>
+														<th>Số cổng lưu trữ tối đa</th>
+														<th
+															th:text="${getProduct.getDetails().maximum_number_of_storage_port}"></th>
+													</tr>
+													<tr>
+														<th>Kiểu khe M.2 hỗ trợ</th>
+														<th
+															th:text="${getProduct.getDetails().supportedM_2slot_type}"></th>
+													</tr>
+													<tr>
+														<th>Cổng xuất hình</th>
+														<th th:text="${getProduct.getDetails().output_port}"></th>
+													</tr>
+													<tr>
+														<th>Cổng kết nối</th>
+														<th th:text="${getProduct.getDetails().connector}"></th>
+													</tr>
+													<tr>
+														<th>Kết nối không dây</th>
+														<th
+															th:text="${getProduct.getDetails().wireless_Connectivity}"></th>
+													</tr>
+													<tr>
+														<th>Bàn phím</th>
+														<th th:text="${getProduct.getDetails().keyboard}"></th>
+													</tr>
+													<tr>
+														<th>Hệ điều hành</th>
+														<th th:text="${getProduct.getDetails().operating_system}"></th>
+													</tr>
+													<tr>
+														<th>Kích thước</th>
+														<th th:text="${getProduct.getDetails().size}"></th>
+													</tr>
+													<tr>
+														<th>Pin</th>
+														<th th:text="${getProduct.getDetails().Pin}"></th>
+													</tr>
+													<tr>
+														<th>Khối lượng</th>
+														<th th:text="${getProduct.getDetails().weight}"></th>
+													</tr>
+													<tr>
+														<th>Bảo mật</th>
+														<th th:text="${getProduct.getDetails().security}"></th>
+													</tr>
+													<tr>
+														<th>Đèn LED trên máy</th>
+														<th
+															th:text="${getProduct.getDetails().LED_light_on_machine}"></th>
+													</tr>
+													<tr>
+														<th>Phụ Kiện</th>
+														<th th:text="${getProduct.getDetails().included}"></th>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+									<div class="tab-pane fade" id="product_tabs_tags">
+										<div class="box-collateral box-tags">
+											<h2>Nội dung đang cập nhật</h2>
+										</div>
+									</div>
+									<div class="tab-pane fade" id="reviews_tabs">
+										<div class="box-collateral box-reviews" id="customer-reviews">
+											<div class="box-reviews1">
+												<div  class="form-add" sec:authorize="isAuthenticated()">
+													<form id="review-form" th:action="@{/sanpham/danh-gia/}" method="get" th:object="${reviews}"
+														>
+														<h3>Đánh giá sản phẩm</h3>
+														<fieldset>
+															<h4>
+																Bạn đánh giá bao nhìu sao nhỉ? <em class="required">*</em>
+															</h4>
+															<span id="input-message-box"></span>
+															<table id="product-review-table" class="data-table">
+																<colgroup>
+																	<col>
+																	<col width="1">
+																	<col width="1">
+																	<col width="1">
+																	<col width="1">
+																	<col width="1">
+																</colgroup>
+																<thead>
+																	<tr class="first last">
+																		<th></th>
+																		<th><span class="nobr">1 *</span></th>
+																		<th><span class="nobr">2 *</span></th>
+																		<th><span class="nobr">3 *</span></th>
+																		<th><span class="nobr">4 *</span></th>
+																		<th><span class="nobr">5 *</span></th>
+																	</tr>
+																</thead>
+																<tbody>
+																	<tr class="first odd">
+																		<th>Đánh giá sao</th>
+																		<td class="value"><input
+																			th:field="${reviews.rating}" type="radio"
+																			class="radio" value="1" id="star_1" name="ratings[1]"></td>
+																		<td class="value"><input
+																			th:field="${reviews.rating}" type="radio"
+																			class="radio" value="2" id="Star_2" name="ratings[2]"></td>
+																		<td class="value"><input
+																			th:field="${reviews.rating}" type="radio"
+																			class="radio" value="3" id="Star_3" name="ratings[3]"></td>
+																		<td class="value"><input
+																			th:field="${reviews.rating}" type="radio"
+																			class="radio" value="4" id="Star_4" name="ratings[4]"></td>
+																		<td class="value last"><input
+																			th:field="${reviews.rating}" type="radio"
+																			class="radio" value="5" id="Star_5" name="ratings[5]"></td>
+																	</tr>
+
+																</tbody>
+															</table>
+															<input type="hidden" th:value="${getProduct.id}" class="validate-rating"
+																id="validate_id">
+															<div class="review1">
+																<ul class="form-list">
+																	<li><label class="required" for="nickname_field">Nickname<em>*</em></label>
+																		<div class="input-box">
+																			<input type="text" class="input-text required-entry"
+																				id="nickname_field" name="nickname" th:value="${#authentication.name}" disabled="disabled">
+																		</div></li>
+																	<li><label class="required" for="summary_field">chủ
+																			đề<em>*</em>
+																	</label>
+																		<div class="input-box">
+																			<input th:field="${reviews.title}" type="text"
+																				class="input-text required-entry" id="summary_field"
+																				name="title">
+																		</div></li>
+																</ul>
+															</div>
+															<div class="review2">
+																<ul>
+																	<li><label class="required label-wide"
+																		for="review_field">Nội dung bình luận<em>*</em></label>
+																		<div class="input-box">
+																			<textarea 
+																				class="required-entry" rows="3" cols="5"
+																				id="review_field" name="detail" th:field="${reviews.comment}"></textarea>
+																		</div></li>
+																</ul>
+																<div class="buttons-set">
+																<label class="required" id="notify" ></label>
+																<br>
+																	<button  class="button submit"
+																		title="Submit Review" type="submit">
+																		<span>Bình luận</span>
+																	</button>
+																	
+																</div>
+															</div>
+														</fieldset>
+													</form>
+												</div>
+										<h2 sec:authorize="!isAuthenticated()"> Bạn phải đăng nhập để đánh giá sản phẩm </h2>
+											</div>
+											<div class="box-reviews2">
+												<h3>Đánh giá Sản phẩm</h3>
+												<div class="box visible">
+													<ul>
+														<li>
+
+															<div th:each="reviews:${getProduct.reviews}"
+																class="review">
+																<h6>
+																	<h3 th:text="${reviews.title}">Đánh Giá-</h3>
+																</h6>
+																<div class="rating-box">
+																	<div class="rating" th:style="'width:' + ${reviews.rating*20}+'%'"></div>
+																</div>
+																<small>Review by <span
+																	th:text="${reviews.user.name}"></span> từ
+																	[[${reviews.time}]]
+																</small>
+																<div class="review-txt" th:text="${reviews.comment}"></div>
+															</div>
+														</li>
+
+													</ul>
+												</div>
+												<div class="actions">
+													<a class="button view-all" id="revies-button"><span><span>View
+																all</span></span></a>
+												</div>
+											</div>
+											<div class="clear"></div>
+										</div>
+									</div>
+
+								</div>
+							</div>
+							<div class="col-sm-12">
+								<div class="box-additional">
+									<div class="related-pro wow">
+										<div class="slider-items-products">
+											<div class="new_title center">
+												<h2>SẢN PHẨM TƯƠNG TƯ</h2>
+											</div>
+											<div id="related-products-slider"
+												class="product-flexslider hidden-buttons">
+												<div class="slider-items slider-width-col4">
+													<!-- Item -->
+													<div th:each="products : ${productRelated}" class="item">
+														<div class="col-item">
+															<div class="sale-label sale-top-right">Sale</div>
+															<div class="images-container">
+																<a class="product-image" th:title="${products.name}"
+																	href="product-detail.html"> <img
+																	th:src="@{'/'+${products.getImages().get(0).getName()}}"
+																	class="img-responsive" alt="a" />
+																</a></a>
+																<div class="actions">
+																	<div class="actions-inner">
+																		<button type="button" title="Add to Cart"
+																			class="button btn-cart">
+																			<span>Thêm giỏ hàng</span>
+																		</button>
+
+																	</div>
+																</div>
+																<div class="qv-button-container">
+																	<a class="qv-e-button btn-quickview-1"
+																		href="quick_view.html"><span><span>Xem
+																				thêm</span></span></a>
+																</div>
+															</div>
+															<div class="info">
+																<div class="info-inner">
+																	<div class="item-title">
+																		<a href="#l" th:title="${products.name}"
+																			th:text="${products.name}"></a>
+																	</div>
+																	<!--item-title-->
+																	<div class="item-content">
+																		<div class="ratings">
+																			<div class="rating-box">
+																				<div style="width: 60%" class="rating"></div>
+																			</div>
+																		</div>
+																		<div class="price-box">
+																			<p class="special-price">
+																				<span class="price" th:text="${products.price}">
+																				</span>
+																			</p>
+																			<p class="old-price">
+																				<span class="price-sep">-</span> <span class="price"
+																					th:text="${products.discount}"> </span>
+																			</p>
+																		</div>
+																	</div>
+																	<!--item-content-->
+																</div>
+
+																<div class="clearfix"></div>
+															</div>
+														</div>
+													</div>
+													<!-- End Item -->
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="upsell-pro wow">
+										<div class="slider-items-products">
+											<div class="new_title center">
+												<h2>Sản Phẩm Khác</h2>
+											</div>
+											<div id="upsell-products-slider"
+												class="product-flexslider hidden-buttons">
+												<div class="slider-items slider-width-col4">
+													<!-- Item -->
+													<div th:each="products : ${listProduct}" class="item">
+														<div class="col-item">
+															<div class="sale-label sale-top-right">Sale</div>
+															<div class="images-container">
+																<a class="product-image" title="Sample Product"
+																	href="product-detail.html"> <img
+																	th:src="@{'/'+${products.getImages().get(0).getName()}}"
+																	class="img-responsive" alt="a" />
+																</a></a>
+																<div class="actions">
+																	<div class="actions-inner">
+																		<button type="button" title="Add to Cart"
+																			class="button btn-cart">
+																			<span>Thêm Giỏ Hàng</span>
+																		</button>
+
+																	</div>
+																</div>
+																<div class="qv-button-container">
+																	<a class="qv-e-button btn-quickview-1"
+																		href="quick_view.html"><span><span>Xem
+																				Thêm</span></span></a>
+																</div>
+															</div>
+															<div class="info">
+																<div class="info-inner">
+																	<div class="item-title">
+																		<a href="#l" th:title="${products.name}"
+																			th:text="${products.name}"> </a>
+																	</div>
+																	<!--item-title-->
+																	<div class="item-content">
+																		<div class="ratings">
+																			<div class="rating-box">
+																				<div style="width: 60%" class="rating"></div>
+																			</div>
+																		</div>
+																		<div class="price-box">
+																			<p class="special-price">
+																				<span class="price"  th:text="${#numbers.formatDecimal(products.price, 0, 'COMMA', 0, 'POINT')}"></span>
+																			</p>
+																			<p class="old-price">
+																				<span class="price-sep">-</span> <span class="price"
+																					th:text="${products.discount}"></span>
+																			</p>
+																		</div>
+																	</div>
+																	<!--item-content-->
+																</div>
+																<!--info-inner-->
+
+																<!--actions-->
+
+																<div class="clearfix"></div>
+															</div>
+														</div>
+													</div>
+													<!-- End Item -->
+												</div>
+											</div>
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+	</div>
+	</section>
+	<!--End main-container -->
+
+	<!-- Footer -->
+	<footer th:replace="fragments/footer :: html_footer" />
+
+	<!-- End Footer -->
+	</div>
+
+	<!-- JavaScript -->
+<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/jquery.jcarousel.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/cloudzoom.js}"></script>
+
+	<script type="text/javascript" th:src="@{/js/common.js}"></script>
+	<script type="text/javascript" th:src="@{/js/owl.carousel.min.js}"></script>
+	<script type="text/javascript">
+		function addProductToCart(id) {
+			$.ajax({
+				url : "/tai-khoan/themgiohang",
+				type : "get",
+				data : {
+					ajaxID : id,
+				},
+				success : function(response) {
+					i++;
+					var url;
+					url = ""
+					console.log(response);
+					$("#cart").html(response);
+					alert("Thêm vào giỏ hành thành công");
+
+				},
+				error : function(xhr) {
+					console.log("ERROR: ", e);
+				}
+			});
+		}
+	</script>
+	<script type="text/javascript">
+    $(document).ready(function () {
+    	   $("#review-form").submit(function (e) {
+               e.preventDefault();
+				var rating = $('input[name="rating"]:checked').val();
+				var title = $('#summary_field').val();
+				var review = $('#review_field').val();
+				var valueID=$('#validate_id').val();
+				if (rating == null) {
+					alert("bạn vui lòng đánh giá sao");
+					return false;
+				} else if (title == '') {
+					alert("bạn vui lòng không để trống chủ đề");
+					return false;
+
+				} else if (review == '') {
+					alert("bạn vui lòng không để trống nội dung");
+					return false;
+				} 
+				$.ajax({
+					url : '/sanpham/danh-gia/',
+					type : 'GET',
+					data :{
+						rating:rating,
+						title:title,	
+						review:review,
+						valueID:valueID
+					},
+					success : function(data) {
+					$("#notify").html("<label class='required' id='notify' >"+data+"</label>");
+					}
+				})
+			})
+		})
+	</script>
+		<script type="text/javascript">
+		function addProductToCart(id) {
+
+			$.ajax({
+				url : "/tai-khoan/themgiohang",
+				type : "get",
+				data : {
+					ajaxID : id,
+				},
+				success : function(response) {
+			
+					console.log(response);
+					$("#cart").html(response);
+					//  document.getElementById("cart-total").innerHTML = "<span th:text='${session.numbercart}'>"+"</span>";
+					alert("Thêm vào giỏ hành thành công");
+
+				},
+				error : function(xhr) {
+					console.log("ERROR: ", e);
+				}
+			});
+		}
+	</script>
+</body>
+
+</html>

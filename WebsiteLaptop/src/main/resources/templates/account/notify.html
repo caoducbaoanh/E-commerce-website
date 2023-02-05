@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/fragments :: html_head" />
+<body>
+	<div class="page">
+		<!-- Header -->
+		<header th:replace="fragments/header :: html_header" />
+		<!-- end header -->
+		<!-- Navbar -->
+		<nav th:replace="fragments/menu :: html_menu" />
+
+		<!-- end nav -->
+
+		<!-- main-container -->
+		<div class="main-container col2-right-layout">
+			<div class="main container">
+				<div class="row">
+					<section class="col-main col-sm-9 wow">
+						<div class="my-account">
+							<div class="page-title">
+								<h2>Dành sách thông báo</h2>
+							</div>
+							<div class="my-wishlist">
+								<div class="table-responsive">
+									<form method="post"
+										action="#/wishlist/index/update/wishlist_id/1/"
+										id="wishlist-view-form">
+										<fieldset>
+											<input type="hidden" value="ROBdJO5tIbODPZHZ" name="form_key">
+											<table id="wishlist-table"
+												class="clean-table linearize-table data-table">
+												<thead>
+													<tr class="first last">
+														<th>STT</th>
+														<th>Nôi dung</th>
+														<th>Chủ để</th>
+														<th>Thời gian</th>
+														<th>#</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr id="item_31" class="first odd"
+														th:each="notify :${listNotify}">
+														<td><h5 th:text="${notify.id}"></h5></td>
+													<td><h5 th:text="${notify.content}"></h5></td>
+														<td><h5 th:text="${notify.keyword}"></h5></td>
+													
+														<td><h5 th:text="${notify.time}"></h5></td>
+														<td><a class="btn btn-primary" th:onclick="'deleteNotify('+${notify.id}+')'">Xóa</a></td>
+
+
+
+													</tr>
+												</tbody>
+											</table>
+										</fieldset>
+									</form>
+								</div>
+							</div>
+							<div class="buttons-set">
+								<p class="back-link">
+									<a href="#/customer/account/"><small>« </small>Back</a>
+								</p>
+							</div>
+						</div>
+					</section>
+					<aside class="col-right sidebar col-sm-3 wow">
+						<div class="block block-account">
+							<div class="block-title">Tài Khoản</div>
+							<div class="block-content">
+								<ul>
+									<li class="current">Account Dashboard</li>
+									<li><a th:href="@{/tai-khoan/thong-tin-tai-khoan}">Thông tin tài
+											khoản</a></li>
+									<li><a th:href="@{/tai-khoan/don-hang/danh-sach-dat-hang}">Dành sách đặt hàng</a></li>
+									<li><a th:href="@{/tai-khoan/danh-gia}">Dành sách đánh giá </a></li>
+									<li><a th:href="@{/tai-khoan/thong-bao/danh-sach-thong-bao}">Dành sách thông báo </a></li>
+									<li><a th:href="@{/tai-khoan/gio-hang}">Giỏ hàng</a></li>
+									<li><a th:href="@{/tai-khoan/dang-xuat}">Đăng xuất</a></li>
+								</ul>
+							</div>
+						</div>
+						<div class="block block-compare">
+							<div class="block-title ">
+								<span>Sản phẩm đã xem</span>
+							</div>
+							<div class="block-content">
+						
+							
+								</div>
+							</div>
+						</div>
+					</aside>
+
+				</div>
+			</div>
+		</div>
+
+		<!--End main-container -->
+		<!-- Footer -->
+		<footer th:replace="fragments/footer :: html_footer" />
+
+		<!-- End Footer -->
+	</div>
+
+
+	<!-- JavaScript -->
+	<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+
+
+	<script type="text/javascript"
+		th:src="@{../js/jquery.jcarousel.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/cloudzoom.js}"></script>
+
+	<script type="text/javascript" th:src="@{/js/common.js}"></script>
+	<script type="text/javascript" th:src="@{/js/owl.carousel.min.js}"></script>
+	<script type="text/javascript">
+	function deleteNotify(data) {
+		if (confirm("Bạn muốn xóa thông báo ?")) {
+			$.ajax({
+				url : '/tai-khoan/thong-bao/xoa',
+				type : "get",
+				data : {
+					id : data,
+				},
+				success : function(response, type) {
+					if (response) {
+						alert("Xóa thành công thông báo");
+						window.location.href="/tai-khoan/thong-bao/danh-sach-thong-bao";
+					} else {
+						alert("Không kích hoạt được lỗi quá trình xử lý");
+					}
+				},
+			})
+		}
+	}	</script>
+</body>
+
+</html>
